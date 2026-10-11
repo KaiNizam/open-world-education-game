@@ -1,0 +1,706 @@
+<!doctype html>
+<html lang="ms">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#fff5df">
+<title>Misi Detektif Jejak Tradisi Dan Warisan — Edisi Warisan</title>
+<style>
+  :root{--ink:#fff5dc;--muted:#d6c7a0;--panel:#244b68;--panel2:#315f80;--gold:#ffc857;--mint:#77d6a7;--coral:#e98262;--line:rgba(255,204,96,.42)}
+  *{box-sizing:border-box}
+  html,body{margin:0;width:100%;min-height:100%;font-family:ui-rounded,"Trebuchet MS",system-ui,-apple-system,sans-serif;background:#0b2029;color:var(--ink)}
+  body{padding:12px;background:radial-gradient(ellipse at 50% -10%,#477da8 0%,#285777 46%,#18384f 100%);}
+  button{font:inherit;cursor:pointer;touch-action:manipulation}
+  .app{max-width:1600px;margin:0 auto}
+  .topbar{display:flex;align-items:center;justify-content:space-between;gap:14px;margin:0 auto 12px;flex-wrap:wrap}
+  .brand{display:flex;align-items:center;gap:12px;min-width:220px}
+  .logo{width:48px;height:48px;display:grid;place-items:center;border-radius:16px;background:linear-gradient(145deg,#ffe9a6,#d99a2b);font-size:26px;box-shadow:0 8px 24px #0003;border:1px solid #fff0b3}
+  .brand h1{font-size:clamp(19px,2.5vw,29px);line-height:1.1;margin:0;letter-spacing:-.5px}
+  .brand p{margin:4px 0 0;color:var(--muted);font-size:12px;letter-spacing:1.2px;text-transform:uppercase}
+  .stats{display:flex;gap:8px;align-items:center;flex-wrap:wrap}
+  .stat{background:#294b65;border:1px solid var(--line);border-radius:13px;padding:9px 13px;min-width:94px}
+  .stat span{display:block;font-size:10px;color:#a7c8c8;letter-spacing:.8px;text-transform:uppercase}
+  .stat strong{display:block;font-size:18px;margin-top:2px;white-space:nowrap}
+  .stat.gold strong{color:var(--gold)}
+  .layout{display:grid;grid-template-columns:minmax(0,1fr) 255px;gap:12px;align-items:stretch}
+  .game-card,.side-card{background:linear-gradient(145deg,#315f80,#24445f);border:2px solid #d89a2c;border-radius:19px;overflow:hidden;box-shadow:0 5px 0 #70491e,0 18px 60px #0002}
+  .game-head{display:flex;justify-content:space-between;align-items:center;gap:10px;padding:9px 13px;border-bottom:1px solid var(--line);background:linear-gradient(90deg,#3d7094,#2a526f)}
+  .location{display:flex;align-items:center;gap:8px;color:#d8eeea;font-weight:700;font-size:13px}
+  .pulse{width:8px;height:8px;background:var(--mint);border-radius:50%;box-shadow:0 0 0 4px #65e0b51a}
+  .compass{font-size:12px;color:#b7d3d0;text-align:right}
+  .canvas-wrap{position:relative;background:#cba86b;overflow:hidden;border:5px solid #d5a449;box-shadow:inset 0 0 0 3px #f5d990}
+  #game{display:block;width:100%;height:min(66vh,690px);min-height:280px;outline:0;touch-action:none}
+  .minimap{position:absolute;top:12px;right:12px;width:150px;padding:6px;background:#09252be8;border:1px solid #d8f1d533;border-radius:14px;box-shadow:0 8px 24px #071e2566;z-index:3;pointer-events:none;backdrop-filter:blur(5px)}
+  .minimap-head{display:flex;align-items:center;justify-content:space-between;gap:4px;color:#e2f5e9;font-size:9px;font-weight:900;letter-spacing:.5px;margin:0 0 6px}
+  #minimapCount{color:#f6d98a;font-weight:800;letter-spacing:0}
+  #minimapCanvas{display:block;width:100%;height:auto;border-radius:8px;background:#244f43;border:1px solid #b7dfbd55}
+  .minimap-legend{display:flex;flex-wrap:wrap;gap:3px 6px;margin-top:4px;color:#c5dfd4;font-size:8px;line-height:1.3}
+  @media(max-width:620px){.minimap{top:8px;right:8px;width:118px;padding:5px;border-radius:9px}.minimap-head{font-size:9px;margin-bottom:4px}.minimap-legend{font-size:8px;gap:3px 5px;margin-top:4px}}
+  .toast{position:absolute;left:50%;bottom:18px;transform:translateX(-50%);background:#0b2630eF;border:1px solid #d9f2e92c;border-radius:14px;padding:11px 16px;display:flex;gap:9px;align-items:center;white-space:nowrap;font-size:13px;box-shadow:0 8px 26px #071e2599;pointer-events:none;transition:opacity .2s;max-width:95%}
+  .toast kbd{background:#f4e7bb;color:#4b3714;border-radius:6px;padding:3px 7px;font-weight:900;font-size:12px}
+  .game-foot{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:10px 14px;background:#294b65;border-top:1px solid var(--line);color:#d6e5f0;font-size:11px}
+  .side{display:flex;flex-direction:column;gap:12px}
+  .side-card{padding:14px}
+  .side-card h2{font-size:14px;letter-spacing:.4px;margin:0 0 13px}
+  .questline{display:flex;gap:10px;align-items:flex-start;margin:0 0 14px}
+  .questicon{width:35px;height:35px;flex:0 0 auto;border-radius:11px;background:#416a88;display:grid;place-items:center;font-size:18px}
+  .questline strong{display:block;font-size:12px;margin:2px 0 4px}
+  .questline p{margin:0;color:#e0edf7;font-size:11px;line-height:1.45}
+  .progress-label{display:flex;justify-content:space-between;color:#e2edf5;font-size:11px;margin-bottom:8px}
+  .progress{height:8px;background:#24454d;border-radius:99px;overflow:hidden}
+  .progress-in{height:100%;width:0;background:linear-gradient(90deg,#5ddcb0,#c8f18a);border-radius:99px;transition:width .35s}
+  .chest-list{display:grid;grid-template-columns:repeat(6,1fr);gap:6px;margin-top:14px}
+  .chest-pill{height:32px;border-radius:9px;display:grid;place-items:center;background:#20434b;color:#82a6a6;font-size:13px;border:1px solid #31575d}
+  .chest-pill.done{background:#264e47;border-color:#4d9e7f;color:#8df0c5}
+  .chest-pill.current{border-color:#ffd166;color:#ffd166;box-shadow:inset 0 0 0 1px #ffd16635}
+  .tips{list-style:none;padding:0;margin:0;display:grid;gap:12px}
+  .tips li{display:flex;gap:9px;align-items:flex-start;font-size:11px;color:#e0ebf5;line-height:1.45}
+  .key{display:inline-grid;place-items:center;min-width:25px;height:25px;padding:0 6px;background:#244850;color:#eff9f5;border:1px solid #45666b;border-radius:7px;font-weight:800;font-size:11px}
+  .touch-controls{display:none;align-items:center;justify-content:space-between;padding:13px 16px;gap:15px;background:#102f3a;border-top:1px solid var(--line)}
+  .dpad{display:grid;grid-template-columns:repeat(3,43px);grid-template-rows:repeat(2,39px);gap:4px}
+  .move-btn,.action-btn{border:1px solid #47676d;background:#1b4651;color:white;border-radius:10px;font-weight:900;box-shadow:0 3px 0 #0a2129;user-select:none;-webkit-user-select:none}
+  .move-btn:active,.action-btn:active{transform:translateY(2px);box-shadow:0 1px 0 #0a2129;background:#28606a}
+  .move-btn.up{grid-column:2;grid-row:1}.move-btn.left{grid-column:1;grid-row:2}.move-btn.down{grid-column:2;grid-row:2}.move-btn.right{grid-column:3;grid-row:2}
+  .action-btn{height:70px;width:83px;border-radius:50%;background:#c98832;color:#18272a;border-color:#f9d27e;font-size:12px;box-shadow:0 4px 0 #765021}
+  .overlay{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;padding:18px;background:linear-gradient(0deg,#09232ad9,#09232a91);z-index:4}
+  .dialog{width:min(100%,500px);max-height:calc(100dvh - 12px);overflow:hidden;background:#294c67;border:1px solid #79a6a45c;border-radius:22px;padding:clamp(18px,3vw,30px);box-shadow:0 30px 90px #00151cc9}
+  .dialog.center{text-align:center}
+  .eyebrow{font-size:10px;letter-spacing:2px;color:#85d9bf;text-transform:uppercase;font-weight:900;margin-bottom:10px}
+  .dialog h2{font-size:clamp(25px,4vw,35px);line-height:1.05;letter-spacing:-.8px;margin:0 0 12px}
+  .dialog p{color:#e0edf4;font-size:14px;line-height:1.6;margin:0 0 18px}
+  .hero-icon{font-size:54px;line-height:1;margin-bottom:15px;filter:drop-shadow(0 7px 10px #0003)}
+  .primary{width:100%;border:0;border-radius:12px;padding:13px 17px;background:linear-gradient(135deg,#ffe09a,#e6ad43);color:#26302b;font-weight:900;box-shadow:0 4px 0 #986d2a;}
+  .primary:active{transform:translateY(2px);box-shadow:0 2px 0 #986d2a}
+  .subtle{background:transparent;border:1px solid #56787d;color:#c9e0dc;border-radius:10px;padding:10px 14px;font-weight:700}
+  .quiz-top{display:flex;justify-content:space-between;gap:8px;align-items:center;margin-bottom:clamp(5px,1.4vh,16px);flex-wrap:wrap}
+  .quiz-number{font-size:11px;color:#b6d3d0;font-weight:800;text-transform:uppercase;letter-spacing:1px}
+  .quiz-points{font-size:11px;color:#ffdb85;background:#5b4926;border-radius:999px;padding:7px 10px;font-weight:900;white-space:nowrap}
+  .question{font-size:clamp(20px,3vw,25px);font-weight:900;line-height:1.25;margin-bottom:17px}
+  .answers{display:grid;gap:9px;margin-bottom:15px}
+  .answer{display:flex;gap:11px;align-items:center;text-align:left;border-radius:12px;padding:12px 13px;background:#365f7a;border:1px solid #3b636a;color:#ebf8f4;min-height:48px}
+  .answer:hover{background:#20535a;border-color:#6ca7a1}
+  .answer .letter{display:grid;place-items:center;flex:0 0 auto;width:27px;height:27px;border-radius:8px;background:#527b96;color:#d8f2e9;font-size:12px;font-weight:900}
+  .answer.correct{border-color:#65e0b5;background:#174b43}.answer.correct .letter{background:#65e0b5;color:#10312e}
+  .answer.wrong{border-color:#ff927a;background:#4d3334}.answer.wrong .letter{background:#ff927a;color:#402528}
+  .answer:disabled{cursor:default}
+  .feedback{border-radius:12px;padding:12px 13px;margin-bottom:15px;background:#1e4d49;color:#c9f5e3;font-size:12px;line-height:1.5}
+  .feedback.bad{background:#4d3736;color:#ffdbd1}
+  .result-score{font-size:48px;font-weight:1000;letter-spacing:-2px;color:#ffdc86;line-height:1.1;margin:6px 0}
+  .result-grid{display:grid;grid-template-columns:1fr 1fr;gap:9px;margin:20px 0}
+  .result-box{padding:13px;border-radius:12px;background:#1b4650;border:1px solid #355b62}
+  .result-box span{font-size:10px;color:#a9c8c5;letter-spacing:.8px;text-transform:uppercase;display:block}
+  .result-box strong{font-size:20px;display:block;margin-top:3px}
+  .grade{font-size:16px;font-weight:900;color:#89edc4;margin-bottom:9px}
+  .clue-line{background:#173b3b;border:1px solid #2f6259;border-radius:12px;padding:10px;margin-top:10px}.clue-line strong{color:#ffe2a0}.clue-line p{color:#c2ded4}
+  .quiz-tools{display:flex;align-items:center;gap:6px;flex-wrap:wrap;justify-content:flex-end}.bubble-toggle{border:1px solid #b7d0e5;border-radius:999px;padding:6px 9px;background:#fff;color:#24344a;font-size:10px;font-weight:800;cursor:pointer;white-space:nowrap}
+  /* Soalan bubble auto-fit tanpa scrollbar; warna boleh ditukar secara berasingan. */
+  #quizOverlay{padding:clamp(4px,1.4vh,18px);overflow:hidden}
+  #quizOverlay .dialog{width:min(100%,500px);max-height:calc(100dvh - 8px);overflow:hidden;padding:clamp(9px,2.3vh,30px);display:flex;flex-direction:column;gap:0}
+  #quizOverlay .question{font-size:clamp(14px, min(2.8vw, 3.4vh), 25px);line-height:1.18;margin-bottom:clamp(5px,1.4vh,17px);overflow-wrap:anywhere}
+  #quizOverlay .answers{gap:clamp(4px,.8vh,9px);margin-bottom:clamp(5px,1.3vh,15px)}
+  #quizOverlay .answer{padding:clamp(6px,1.2vh,12px) clamp(7px,1.1vw,13px);min-height:0;line-height:1.25;font-size:clamp(16px,1.8vh,20px)}
+  #quizOverlay .answer .letter{width:clamp(20px,3vh,27px);height:clamp(20px,3vh,27px)}
+  #quizOverlay .feedback{padding:clamp(6px,1.2vh,12px);margin-bottom:clamp(5px,1.2vh,15px);font-size:clamp(10px,1.4vh,12px)}
+  #quizOverlay .eyebrow{margin-bottom:clamp(4px,1vh,10px);font-size:clamp(8px,1.1vh,10px)}
+  #quizOverlay .quiz-top{margin-bottom:clamp(5px,1.2vh,16px)}
+  #quizOverlay.dark-bubble .dialog{background:#111820!important;border-color:#526273!important;color:#fff!important}
+  #quizOverlay.dark-bubble .quiz-number,#quizOverlay.dark-bubble .question{color:#fff!important}
+  #quizOverlay.dark-bubble .quiz-points{background:#303b48;color:#fff}
+  #quizOverlay.dark-bubble .bubble-toggle{background:#f8fafc;color:#111820;border-color:#8c9aaa}
+  #quizOverlay.dark-bubble .answer{background:#252f3b!important;border-color:#526273!important;color:#fff!important}
+  #quizOverlay.dark-bubble .answer .letter{background:#465568!important;color:#fff!important}
+  #quizOverlay.dark-bubble .answer:hover{background:#354455!important}
+  #quizOverlay.dark-bubble .answer.correct{background:#174b37!important;border-color:#54bd8c!important;color:#fff!important}
+  #quizOverlay.dark-bubble .answer.wrong{background:#542b2b!important;border-color:#ed7866!important;color:#fff!important}
+  #quizOverlay.dark-bubble .feedback{background:#183d32!important;color:#d7ffea!important;border-color:#36795f!important}
+  #quizOverlay.dark-bubble .feedback.bad{background:#482b2b!important;color:#ffe1dc!important;border-color:#92514a!important}
+  .hidden{display:none!important}
+  .confetti-layer{position:absolute;inset:0;overflow:hidden;pointer-events:none;z-index:8}
+  .cursor-target{position:absolute;width:24px;height:24px;border:2px solid #ffe08a;border-radius:50%;box-shadow:0 0 0 5px #ffe08a33,0 0 18px #ffe08a;transform:translate(-50%,-50%);pointer-events:none;z-index:2;display:none}
+  .cursor-target::after{content:"";position:absolute;inset:6px;border-radius:50%;background:#ffe08a}
+  .lightning-flash{position:absolute;left:50%;top:44%;transform:translate(-50%,-50%) scale(.5);z-index:9;opacity:0;pointer-events:none;font-size:100px;filter:drop-shadow(0 0 12px #68dfff);}
+  .lightning-flash.active{animation:lightning-strike .82s ease-out forwards}
+  @keyframes lightning-strike{0%{opacity:0;transform:translate(-50%,-50%) scale(.2) rotate(-18deg)}12%{opacity:1;transform:translate(-50%,-50%) scale(1.1) rotate(8deg)}28%{opacity:.35}43%{opacity:1}100%{opacity:0;transform:translate(-50%,-50%) scale(.75) rotate(-5deg)}}
+  .confetti-piece{position:absolute;top:-18px;width:10px;height:15px;border-radius:2px;box-shadow:0 1px 3px #0002;animation:confetti-fall 1.8s cubic-bezier(.15,.65,.35,1) forwards}
+  @keyframes confetti-fall{0%{transform:translate3d(0,-10px,0) rotate(0deg);opacity:1}100%{transform:translate3d(var(--drift),var(--fall),0) rotate(var(--spin));opacity:0}}
+  .music-control{display:flex;align-items:center;gap:7px}
+  @media(prefers-reduced-motion:reduce){.confetti-piece{animation-duration:.5s}}
+  .footer-note{text-align:center;color:#c7b98d;font-size:10px;margin-top:5px}
+  @media(max-width:900px){.layout{grid-template-columns:minmax(0,1fr)}.side{display:grid;grid-template-columns:1fr 1fr}.side-card{padding:14px}.side-card.quest-card{grid-column:span 2}#game{height:min(62vh,650px);min-height:340px}}
+  @media(max-width:560px){body{padding:9px}.topbar{margin-bottom:8px}.brand{min-width:0}.logo{width:39px;height:39px;border-radius:12px;font-size:21px}.brand p{font-size:9px}.stats{width:100%;display:grid;grid-template-columns:repeat(3,1fr)}.stat{min-width:0;padding:7px 9px}.stat span{font-size:9px}.stat strong{font-size:16px}.layout{gap:8px}.game-card,.side-card{border-radius:15px}.game-head{padding:9px 11px}.location{font-size:11px}.compass{font-size:10px}#game{height:54vh;min-height:330px;max-height:520px}.game-foot{font-size:10px}.touch-controls{display:flex}.side{grid-template-columns:1fr}.side-card.quest-card{grid-column:auto}.side-card.controls-card{display:none}.side-card{padding:13px}.dialog{border-radius:18px}.overlay{padding:9px}.answer{padding:10px;min-height:44px}.result-score{font-size:42px}}
+  @media(hover:none){.touch-controls{display:flex}}
+  /* Heritage-inspired ornamental accents and viewport-fit layout */
+  .topbar{padding:8px 12px;border:2px solid #d89a2c;border-radius:18px;background:linear-gradient(100deg,#164b3d,#1b5a47);box-shadow:0 4px 0 #795322;margin-bottom:10px}
+  .brand h1{font-family:Georgia,"Times New Roman",serif;color:#ffe2a0;text-shadow:1px 2px 0 #70461c;letter-spacing:.1px}
+  .brand p{color:#f2dba5;text-transform:none;letter-spacing:.3px}
+  .stat{background:linear-gradient(160deg,#174c3e,#0c3029);border-color:#d49b37}
+  .stat span{color:#e4cf9b}
+  .primary{background:linear-gradient(135deg,#ffe6a1,#d89b35);border:1px solid #fff0bb}
+  .answer{background:#194b3e;border-color:#a77c35}
+  .answer:hover{background:#23604b;border-color:#f5c75c}
+  @media(min-width:901px) and (min-height:620px){
+    html,body{height:100%;overflow:hidden} body{height:100dvh;padding:10px 14px}
+    .app{height:100%;display:flex;flex-direction:column;min-height:0}
+    .topbar{flex:0 0 auto;margin-bottom:9px;min-height:64px}
+    .layout{flex:1 1 auto;min-height:0;grid-template-columns:minmax(0,1fr) 285px;gap:10px}
+    .game-card{min-height:0;display:flex;flex-direction:column}
+    .game-head,.game-foot{flex:0 0 auto}
+    .canvas-wrap{flex:1 1 auto;min-height:0}
+    #game{height:100%;min-height:0;max-height:none}
+    .side{min-height:0;gap:9px}
+    .side-card{padding:11px}
+    .side-card h2{margin-bottom:9px}
+    .questline{margin-bottom:9px}
+    .questicon{width:30px;height:30px}
+    .tips{gap:8px}
+    .footer-note{display:none}
+  }
+  @media(max-width:900px){body{padding:8px}.topbar{gap:8px}.layout{gap:8px}}
+  @media(max-width:560px){
+    html,body{height:100%;overflow:hidden}body{height:100dvh;padding:5px}
+    .app{height:100%;display:flex;flex-direction:column;min-height:0}
+    .topbar{flex:0 0 auto;margin-bottom:5px;padding:5px 7px;border-radius:12px;gap:5px}
+    .brand{gap:7px;flex:1}.logo{width:31px;height:31px;font-size:17px;border-radius:9px}.brand h1{font-size:clamp(14px,4vw,19px)}.brand p{font-size:8px;margin-top:2px}
+    .stats{width:auto;display:flex;gap:3px}.stat{padding:4px 6px;border-radius:8px;min-width:54px}.stat span{font-size:7px}.stat strong{font-size:12px;margin-top:0}
+    .layout{flex:1;min-height:0;display:block}.game-card{height:100%;min-height:0;display:flex;flex-direction:column;border-radius:12px}
+    .game-head{padding:5px 8px}.location{font-size:10px}.compass{font-size:9px}
+    .canvas-wrap{flex:1;min-height:0;border-width:3px}#game{height:100%;min-height:0;max-height:none}
+    .minimap{width:94px;top:5px;right:5px;padding:4px}.minimap-head{font-size:7px}.minimap-legend{font-size:6px}
+    .toast{bottom:6px;padding:6px 9px;font-size:10px}
+    .touch-controls{flex:0 0 auto;padding:5px 9px;gap:8px}.dpad{grid-template-columns:repeat(3,32px);grid-template-rows:repeat(2,27px);gap:3px}.move-btn{border-radius:7px;font-size:11px}.action-btn{height:53px;width:65px;font-size:10px}
+    .game-foot{flex:0 0 auto;padding:5px 7px;font-size:8px;gap:5px}.game-foot .subtle{padding:4px 6px!important;font-size:8px!important}.side,.footer-note{display:none}
+    .overlay{padding:6px}.dialog{padding:13px;border-radius:14px;max-width:430px}.hero-icon{font-size:36px;margin-bottom:8px}.eyebrow{font-size:8px;margin-bottom:6px}.dialog h2{font-size:clamp(20px,5vw,27px);margin-bottom:7px}.dialog p{font-size:11px;line-height:1.4;margin-bottom:10px}.primary{padding:9px 12px}.quiz-top{margin-bottom:6px}.question{margin-bottom:6px}.answers{gap:4px;margin-bottom:6px}.answer{padding:6px 7px;min-height:0;font-size:12px;gap:7px}.answer .letter{width:22px;height:22px}.feedback{padding:8px;margin-bottom:8px;font-size:11px}.result-score{font-size:35px}.result-grid{margin:10px 0;gap:6px}.result-box{padding:8px}
+  }
+  /* Keep the mission sidebar readable on shorter desktop/laptop screens. */
+  @media(min-width:561px) and (max-height:760px){
+    body{padding:6px 10px}.topbar{padding:5px 9px;margin-bottom:6px;min-height:0}.brand h1{font-size:clamp(17px,2vw,24px)}.brand p{font-size:10px}.logo{width:36px;height:36px;font-size:21px}.stat{padding:5px 8px;min-width:70px}.stat strong{font-size:15px}
+    .layout{gap:7px;grid-template-columns:minmax(0,1fr) 255px}.side{gap:6px;min-height:0}.side-card{padding:8px}.side-card h2{font-size:12px;margin-bottom:6px}.questline{gap:6px;margin-bottom:6px}.questicon{width:25px;height:25px;font-size:14px;border-radius:8px}.questline strong{font-size:10px;margin:0 0 2px}.questline p,.tips li{font-size:9px;line-height:1.25}.clue-line{padding:6px;margin-top:5px}.progress-label{font-size:9px;margin-bottom:4px}.progress{height:5px}.chest-list{gap:3px;margin-top:6px}.chest-pill{height:22px;font-size:10px}.tips{gap:5px}.key{height:21px;min-width:22px;font-size:9px}.footer-note{display:none}
+  }
+  @media(min-width:561px) and (max-height:560px){
+    .layout{grid-template-columns:minmax(0,1fr) 220px}.side-card{padding:6px}.side-card:not(.quest-card){display:none}.questline.clue-line{display:flex}.topbar .brand p{display:none}.game-head{padding:3px 7px}.game-foot{padding:3px 7px}.minimap{width:105px}
+  }
+  @media(max-height:520px) and (max-width:900px){
+    html,body{height:100%;overflow:hidden}body{height:100dvh;padding:4px}.app{height:100%;display:flex;flex-direction:column;min-height:0}.topbar{padding:3px 7px;margin-bottom:4px;flex-wrap:nowrap}.brand h1{font-size:16px}.brand p{display:none}.logo{width:28px;height:28px}.stats{width:auto;display:flex}.stat{padding:3px 5px;min-width:49px}.layout{flex:1;min-height:0;display:block}.game-card{height:100%;display:flex;flex-direction:column;min-height:0}.game-head{padding:3px 7px}.canvas-wrap{flex:1;min-height:0}#game{height:100%;min-height:0}.touch-controls{padding:3px 8px}.dpad{grid-template-columns:repeat(3,29px);grid-template-rows:repeat(2,23px)}.action-btn{height:45px;width:58px}.game-foot{padding:3px 6px}.side,.footer-note{display:none}
+  }
+  .answers.true-false{grid-template-columns:repeat(2,minmax(0,1fr))}.answers.true-false .answer{justify-content:center;font-weight:900;min-height:48px}
+
+  /* Cheerful heritage classroom palette: turquoise, coral, marigold and indigo. */
+  :root{--ink:#24344a;--muted:#596b80;--panel:#fff8e8;--panel2:#dff7f3;--gold:#f5b83d;--mint:#28a99a;--coral:#ed7866;--line:rgba(47,74,104,.24)}
+  html,body{background:#fff5df;color:#24344a}
+  body{background:radial-gradient(ellipse at 12% 0%,#ffe5a3 0%,transparent 38%),radial-gradient(ellipse at 95% 10%,#d6d0ff 0%,transparent 34%),linear-gradient(135deg,#fff5df 0%,#e1f8f3 55%,#fff0e9 100%)}
+  .logo{background:linear-gradient(145deg,#fff0a8,#f5b83d);border-color:#fff9d7}
+  .brand p{color:#52677b}
+  .stat{background:#ffffffd9;border-color:#f0bd59;box-shadow:0 3px 0 #f3dfb8}
+  .stat span{color:#61778b}.stat strong{color:#293c54}.stat.gold strong{color:#b66a19}
+  .game-card,.side-card{background:linear-gradient(145deg,#ffffff,#e8faf5);border-color:#f2b94b;box-shadow:0 5px 0 #d9a54a,0 18px 45px #3c54751c}
+  .game-head{background:linear-gradient(90deg,#bdeee5,#d9d4ff);border-color:#b5d8d5}
+  .location{color:#2e5367}.pulse{background:#ed7866;box-shadow:0 0 0 4px #ed786622}.compass{color:#526d80}
+  .canvas-wrap{background:#f6d99a;border-color:#e6ae48;box-shadow:inset 0 0 0 3px #fff0bd}
+  .minimap{background:#fff8e9ed;border-color:#f0bd59;box-shadow:0 8px 24px #43506a24}
+  .minimap-head{color:#354960}#minimapCount{color:#bc7620}#minimapCanvas{background:#bce8d7;border-color:#8bbeb4}.minimap-legend{color:#52677b}
+  .toast{background:#fff9e9f2;border-color:#efc56d;color:#2d4258;box-shadow:0 8px 26px #43506a2b}
+  .game-foot{background:#e6f6f4;border-color:#b8deda;color:#506b7d}
+  .side-card h2{color:#2e4960}.questicon{background:#ffe2b1;color:#624b30}.questline p{color:#5c7082}
+  .progress-label{color:#526b7d}.progress{background:#d7e9e8}.progress-in{background:linear-gradient(90deg,#26b6a4,#f5b83d,#ed7866)}
+  .chest-pill{background:#e3f2f4;color:#718797;border-color:#c5dfe1}.chest-pill.done{background:#c9f2dc;border-color:#54b98d;color:#176e53}.chest-pill.current{border-color:#e7a52e;color:#a96a12;box-shadow:inset 0 0 0 1px #ffd16635}
+  .tips li{color:#536b7d}.key{background:#dcebf5;color:#344c66;border-color:#b5ccdd}
+  .touch-controls{background:#e2f5f2;border-color:#c1e4df}.move-btn{background:#d6e8ff;color:#344c66;border-color:#9ebee0;box-shadow:0 3px 0 #9fb5ce}.move-btn:active{background:#b8d6f7}.action-btn{background:#f5b83d;color:#46371e;border-color:#ffdc83;box-shadow:0 4px 0 #c68c2e}
+  .overlay{background:linear-gradient(0deg,#f7ead4e8,#e4f8f2b8)}.dialog{background:linear-gradient(145deg,#fffdf6,#e8f8f4);border-color:#edbd56;box-shadow:0 30px 90px #52617b38;color:#273c52}
+  .eyebrow{color:#168f85}.dialog h2{color:#2d4662}.dialog p{color:#5c7082}.primary{background:linear-gradient(135deg,#ffe59a,#f5b83d);color:#3f3a2a;box-shadow:0 4px 0 #c58c2d}.subtle{border-color:#a9c9cf;color:#38566c}
+  .quiz-number{color:#526b7d}.quiz-points{color:#875313;background:#ffedbf}.question{color:#2c4560}
+  .answer{background:#f0f7ff;border-color:#c1d6e8;color:#2d4560}.answer:hover{background:#e1f4f0;border-color:#6fc8ba}.answer .letter{background:#d8e9f7;color:#31516c}
+  .answer.correct{background:#d9f6e4!important;border-color:#54bd8c!important;color:#176c50!important}.answer.wrong{background:#ffe2dc!important;border-color:#ed7866!important;color:#913e34!important}
+  .feedback{background:#e2f7ef;color:#285c50;border-color:#a8dfca}.feedback.bad{background:#fff0e7;color:#8e483a;border-color:#f0b9a8}
+  .result-box{background:#fff4d8;border-color:#f0d18a}.result-score{color:#b66a19}
+  @media(prefers-reduced-motion:no-preference){.game-card,.side-card{transition:box-shadow .2s,transform .2s}.side-card:hover{box-shadow:0 6px 0 #d9a54a,0 20px 42px #3c54751f}}
+
+  /* Sky-blue heritage palette: improve contrast in location clue and sidebar panels. */
+  :root{--ink:#24344a;--muted:#52677b;--panel:#fff9ed;--panel2:#e6f4ff;--gold:#f5b83d;--mint:#42b8f4;--coral:#ed7866;--line:rgba(52,105,151,.28)}
+  body{background:radial-gradient(ellipse at 12% 0%,#ffe5a3 0%,transparent 38%),radial-gradient(ellipse at 95% 10%,#d7eaff 0%,transparent 36%),linear-gradient(135deg,#fff5df 0%,#e7f4ff 52%,#fff0e9 100%)}
+  .game-card,.side-card{background:linear-gradient(145deg,#ffffff,#eaf5ff);border-color:#f2b94b}
+  .game-head{background:linear-gradient(90deg,#c8eaff,#e4ddff);border-color:#b9d9f3}
+  .location{color:#294f70}.game-foot{background:#e4f3ff;border-color:#b9d9f3;color:#425f79}
+  .questicon{background:#d7edff;color:#315b7a}
+  .clue-line{background:#e8f5ff;border:1px solid #a7d4f5;color:#29455f;border-radius:12px;padding:10px;margin-top:10px}
+  .clue-line strong{color:#1c6598}.clue-line p{color:#3d5b73}
+  .progress{background:#d9eaf8}.progress-in{background:linear-gradient(90deg,#42b8f4,#f5b83d,#ed7866)}
+  .chest-pill{background:#e7f3ff;color:#506f8a;border-color:#bfdcf2}
+  .key{background:#d9edff;color:#2c4c68;border-color:#a9cce9}
+  .touch-controls{background:#e8f5ff;border-color:#bdddf4}
+  .move-btn{background:#cce8ff;color:#294b6a;border-color:#9dc8ee;box-shadow:0 3px 0 #a6c3df}
+  .move-btn:active{background:#b1dcff}
+  .overlay{background:linear-gradient(0deg,#fff0d9e8,#e5f4ffbb)}
+  .dialog{background:linear-gradient(145deg,#fffdf6,#eaf5ff);border-color:#edbd56}
+  .eyebrow{color:#147cb7}.answer:hover{background:#e3f3ff;border-color:#68b8ed}
+  .feedback{background:#e4f5ff;color:#28536e;border-color:#acd9f5}
+
+
+  /* Final correction: remove remaining green/turquoise from the header and status cards. */
+  .topbar{background:linear-gradient(105deg,#dff2ff 0%,#bfe4ff 58%,#e7e3ff 100%)!important;border-color:#e9b64b!important;box-shadow:0 4px 0 #c9a35b!important}
+  .topbar .brand h1{color:#23466b!important;text-shadow:0 1px 0 #fff7d6}
+  .topbar .brand p{color:#4e6d89!important}
+  .topbar .stat{background:linear-gradient(160deg,#f8fcff,#d9edff)!important;border-color:#e7b94f!important;box-shadow:0 3px 0 #c5d9eb!important}
+  .topbar .stat span{color:#58728b!important}.topbar .stat strong{color:#244c70!important}.topbar .stat.gold strong{color:#a85e17!important}
+  .topbar .logo{background:linear-gradient(145deg,#fff1b8,#f5c451)!important;border-color:#fff8dc!important}
+
+  /* Slightly richer sky-blue background while keeping text and panels readable. */
+  body{background:radial-gradient(ellipse at 12% 0%,#f4dca0 0%,transparent 38%),radial-gradient(ellipse at 95% 10%,#b9dcf7 0%,transparent 36%),linear-gradient(135deg,#d6e8f7 0%,#c5e0f2 52%,#f3ded5 100%)}
+  .fullscreen-btn{border:1px solid #8bbde3;border-radius:10px;padding:8px 10px;background:linear-gradient(135deg,#f8fcff,#cfe8fb);color:#244c70;font-weight:900;font-size:11px;white-space:nowrap;box-shadow:0 3px 0 #aac9df}
+  .fullscreen-btn:hover{background:#bfe2fb}
+  .fullscreen-btn:focus-visible{outline:3px solid #ed7866;outline-offset:2px}
+  body.game-fullscreen{padding:0!important;height:100dvh!important;min-height:100dvh!important;overflow:hidden!important;background:#c5e0f2!important}
+  body.game-fullscreen .app{height:100dvh!important;max-width:none!important;display:flex!important;flex-direction:column!important;min-height:0!important}
+  body.game-fullscreen .topbar{flex:0 0 auto;margin:0!important;border-radius:0 0 12px 12px!important;padding:5px 10px!important;min-height:0!important}
+  body.game-fullscreen .brand h1{font-size:clamp(16px,2vw,25px)}
+  body.game-fullscreen .brand p{display:none}
+  body.game-fullscreen .layout{flex:1 1 auto!important;min-height:0!important;display:block!important;margin:0!important}
+  body.game-fullscreen .game-card{height:100%!important;min-height:0!important;display:flex!important;flex-direction:column!important;border-radius:0!important;box-shadow:none!important}
+  body.game-fullscreen .game-head,body.game-fullscreen .game-foot{flex:0 0 auto!important}
+  body.game-fullscreen .canvas-wrap{flex:1 1 auto!important;min-height:0!important;border-width:3px!important}
+  body.game-fullscreen #game{width:100%!important;height:100%!important;min-height:0!important;max-height:none!important}
+  body.game-fullscreen .side,body.game-fullscreen .footer-note{display:none!important}
+  body.game-fullscreen .stats{width:auto;display:flex;flex-wrap:nowrap}
+  body.game-fullscreen .stat{padding:5px 8px;min-width:58px}
+  body.game-fullscreen .stat span{font-size:8px}
+  body.game-fullscreen .stat strong{font-size:13px}
+  body.game-fullscreen .fullscreen-btn{padding:6px 8px;font-size:10px}
+  @media(max-width:560px){.fullscreen-btn{padding:5px 6px;font-size:9px}.stats{gap:3px}.topbar .stat{min-width:49px}}
+  @media(max-height:520px){body.game-fullscreen .topbar{padding:2px 6px!important}body.game-fullscreen .logo{width:27px;height:27px;font-size:16px}body.game-fullscreen .stat{padding:2px 4px}body.game-fullscreen .game-head,body.game-fullscreen .game-foot{padding:3px 6px}}
+</style>
+</head>
+<body>
+<div class="app">
+  <header class="topbar">
+    <div class="brand"><div class="logo">🗺️</div><div><h1>Misi Detektif Jejak Tradisi Dan Warisan</h1><p>Jejak · Siasat · Pelihara warisan</p></div></div>
+    <div class="stats" aria-live="polite">
+      <div class="stat gold"><span>Markah</span><strong id="scoreDisplay">0 / 100</strong></div>
+      <div class="stat"><span>Peti ditemui</span><strong id="chestDisplay">0 / 6</strong></div>
+      <div class="stat"><span>Jarak peti</span><strong id="distanceDisplay">—</strong></div>
+      <button class="fullscreen-btn" id="fullscreenBtn" type="button" aria-pressed="false" title="Paparan skrin penuh">⛶ Skrin penuh</button>
+    </div>
+  </header>
+  <main class="layout">
+    <section class="game-card" aria-label="Permainan dunia terbuka">
+      <div class="game-head"><div class="location"><span class="pulse"></span><span id="locationName">Lembah Permulaan</span></div><div class="compass" id="directionText">Cari peti harta karun pertama ✨</div></div>
+      <div class="canvas-wrap">
+        <canvas id="game" tabindex="0" aria-label="Dunia permainan. Gunakan kekunci anak panah atau WASD untuk bergerak."></canvas>
+        <div id="minimap" class="minimap" aria-label="Peta mini pulau">
+          <div class="minimap-head"><span>🗺️ PETA MINI</span><span id="minimapCount">0/6 peti</span></div>
+          <canvas id="minimapCanvas" width="180" height="128"></canvas>
+          <div class="minimap-legend"><span>🟡 Belum dibuka</span><span>🟢 Selesai</span><span>🔵 Anda</span></div>
+        </div>
+        <div id="cursorTarget" class="cursor-target" aria-hidden="true"></div><div id="confettiLayer" class="confetti-layer" aria-hidden="true"></div><div id="lightningFlash" class="lightning-flash" aria-hidden="true">⚡</div>
+        <div id="interactionToast" class="toast hidden"><span>🧰</span><span id="toastText">Peti harta karun berhampiran!</span><kbd>E</kbd></div>
+        <div id="introOverlay" class="overlay">
+          <div class="dialog center">
+            <div class="hero-icon">🧭</div><div class="eyebrow">Misi pembelajaran · 6 peti</div>
+            <h2>Jejak tradisi bermula!</h2>
+            <p>Jadilah detektif warisan! Terokai pulau, cari enam peti misteri dan jawab soalan tentang budaya serta pengetahuan. Setiap peti mempunyai <strong>2 soalan</strong>. Jawab 12 soalan untuk melengkapkan misi. Markah akhir dikira daripada 100.</p>
+            <button class="primary" id="startBtn">Mulakan misi detektif →</button>
+            <p style="font-size:11px;margin:13px 0 0;color:#8fb4b2">PC: WASD / anak panah atau klik lokasi dengan tetikus untuk bergerak · E / Space untuk berinteraksi<br>Telefon: gunakan butang arah di bawah peta</p>
+          </div>
+        </div>
+        <div id="quizOverlay" class="overlay hidden" role="dialog" aria-modal="true" aria-labelledby="questionText">
+          <div class="dialog">
+            <div class="quiz-top"><div class="quiz-number" id="quizNumber">Peti 1 daripada 6</div><div class="quiz-tools"><div class="quiz-points">2 soalan / peti</div><button type="button" class="bubble-toggle" id="bubbleThemeToggle" aria-pressed="false">◐ Bubble cerah</button></div></div>
+            <div class="eyebrow" id="questionSection">BAHAGIAN 1: SOALAN OBJEKTIF</div>
+            <div class="question" id="questionText">Soalan akan dipaparkan di sini.</div>
+            <div class="answers" id="answers"></div>
+            <div class="feedback hidden" id="feedback" aria-live="polite"></div>
+            <button class="primary hidden" id="continueBtn">Teruskan pengembaraan →</button>
+          </div>
+        </div>
+        <div id="resultOverlay" class="overlay hidden" role="dialog" aria-modal="true">
+          <div class="dialog center">
+            <div class="hero-icon" id="resultIcon">🏆</div><div class="eyebrow">Misi selesai</div><h2>Misi detektif selesai!</h2>
+            <div class="result-score" id="finalScore">100 / 100</div><div class="grade" id="gradeText">Cemerlang!</div>
+            <p id="resultMessage">Tahniah! Semua peti harta karun telah ditemui.</p>
+            <div class="result-grid"><div class="result-box"><span>Jawapan betul</span><strong id="correctCount">0 / 12</strong></div><div class="result-box"><span>Peti dibuka</span><strong>6 / 6 🧰</strong></div></div>
+            <button class="primary" id="restartBtn">Main sekali lagi ↻</button>
+          </div>
+        </div>
+      </div>
+      <div class="touch-controls" aria-label="Kawalan pergerakan sentuh">
+        <div class="dpad"><button class="move-btn up" data-dir="up" aria-label="Gerak ke atas">▲</button><button class="move-btn left" data-dir="left" aria-label="Gerak ke kiri">◀</button><button class="move-btn down" data-dir="down" aria-label="Gerak ke bawah">▼</button><button class="move-btn right" data-dir="right" aria-label="Gerak ke kanan">▶</button></div>
+        <button class="action-btn" id="touchAction">BUKA<br>PETI</button>
+      </div>
+      <div class="game-foot"><span>🌺 Dunia terbuka · Jejak tradisi dan warisan</span><span style="display:flex;align-items:center;gap:8px"><button class="subtle" id="musicToggle" type="button" aria-pressed="false" style="padding:6px 9px;font-size:10px">♫ Muzik: Mati</button><span id="statusFoot">Sedia untuk bermula</span></span></div>
+    </section>
+    <aside class="side">
+      <section class="side-card quest-card">
+        <h2>📜 Misi pengembara</h2>
+        <div class="questline"><div class="questicon">🧭</div><div><strong id="questTitle">Cari peti pertama</strong><p id="questDesc">Ikut penunjuk arah dan terokai pulau ini.</p></div></div>
+        <div class="questline clue-line"><div class="questicon">💡</div><div><strong>Petunjuk lokasi</strong><p id="clueText">Peti pertama berada berhampiran lembah permulaan.</p></div></div>
+        <div class="progress-label"><span>Kemajuan misi</span><strong id="progressPercent">0%</strong></div><div class="progress"><div class="progress-in" id="progressBar"></div></div>
+        <div class="chest-list" id="chestList" aria-label="Kemajuan enam peti"><div class="chest-pill current">1</div><div class="chest-pill">2</div><div class="chest-pill">3</div><div class="chest-pill">4</div><div class="chest-pill">5</div><div class="chest-pill">6</div></div>
+      </section>
+      <section class="side-card controls-card">
+        <h2>🎮 Cara bermain</h2>
+        <ul class="tips">
+          <li><span class="key">W A S D</span><span>Berjalan ke atas, kiri, bawah dan kanan.</span></li>
+          <li><span class="key">↑ ↓ ← →</span><span>Alternatif kawalan pergerakan.</span></li>
+          <li><span class="key">E</span><span>Berinteraksi apabila berada dekat dengan peti.</span></li>
+          <li><span class="key">🖱</span><span>Klik pada tanah dalam peta untuk berjalan ke lokasi itu.</span></li>
+          <li><span class="key">5×</span><span>Jawab soalan di setiap peti untuk menamatkan misi.</span></li>
+        </ul>
+      </section>
+      <section class="side-card">
+        <h2>💡 Petua pengembaraan</h2>
+        <div class="questline"><div class="questicon">✨</div><div><strong>Perhatikan penunjuk</strong><p>Arah dan jarak ke peti seterusnya dipaparkan di bahagian atas.</p></div></div>
+        <div class="questline" style="margin-bottom:0"><div class="questicon">🧠</div><div><strong>Belajar sambil bermain</strong><p>Setiap peti mengandungi satu soalan pengetahuan am.</p></div></div>
+      </section>
+    </aside>
+  </main>
+  <div class="footer-note">Game pembelajaran web · Kemajuan dan markah untuk sesi ini sahaja</div>
+</div>
+<script>
+(() => {
+  'use strict';
+  const canvas = document.getElementById('game');
+  const ctx = canvas.getContext('2d');
+  const minimapCanvas = document.getElementById('minimapCanvas');
+  const minimapCtx = minimapCanvas.getContext('2d');
+  const minimapCount = document.getElementById('minimapCount');
+  const W = 2900, H = 2050;
+  const $ = id => document.getElementById(id);
+  const ui = {
+    score:$('scoreDisplay'), chest:$('chestDisplay'), distance:$('distanceDisplay'), direction:$('directionText'), clue:$('clueText'), location:$('locationName'),
+    toast:$('interactionToast'), toastText:$('toastText'), intro:$('introOverlay'), quiz:$('quizOverlay'), result:$('resultOverlay'),
+    quizNo:$('quizNumber'), question:$('questionText'), answers:$('answers'), feedback:$('feedback'), next:$('continueBtn'),
+    progress:$('progressBar'), percent:$('progressPercent'), list:$('chestList'), questTitle:$('questTitle'), questDesc:$('questDesc'),
+    foot:$('statusFoot')
+  };
+  const bubbleThemeToggle=$('bubbleThemeToggle');
+  bubbleThemeToggle.addEventListener('click',()=>{
+    const dark=ui.quiz.classList.toggle('dark-bubble');
+    bubbleThemeToggle.textContent=dark?'☀ Bubble gelap':'◐ Bubble cerah';
+    bubbleThemeToggle.setAttribute('aria-pressed',String(dark));
+  });
+  // Kecilkan sedikit teks soalan yang panjang supaya dialog muat tanpa scroll.
+  function fitQuestionBubble(){
+    const q=ui.question; if(!q || ui.quiz.classList.contains('hidden')) return;
+    q.style.fontSize='';
+    const length=q.textContent.length;
+    if(length>180) q.style.fontSize='clamp(13px, min(2.25vw, 2.8vh), 21px)';
+    else if(length>125) q.style.fontSize='clamp(14px, min(2.5vw, 3vh), 23px)';
+  }
+  window.addEventListener('resize',fitQuestionBubble);
+  const questions = [
+    {q:'Antara berikut, yang manakah merupakan kesan pengabaian tradisi dalam masyarakat majmuk?',a:['Sikap hormat semakin meningkat','Sikap bekerjasama semakin kukuh','Perpaduan negara tergugat','Hubungan masyarakat semakin erat'],correct:2,level:'Aras Rendah',section:'objektif',explain:'Pengabaian tradisi dan sikap tidak menghormati budaya lain boleh menggugat perpaduan negara.'},
+    {q:'Apakah yang mungkin berlaku apabila tradisi sesuatu masyarakat tidak lagi dihargai?',a:['Identiti dan khazanah negara bangsa boleh hilang','Masyarakat semakin menghormati budaya lain','Hubungan antara kaum semakin mesra','Amalan hidup bersatu padu semakin kukuh'],correct:0,level:'Aras Rendah',section:'objektif',explain:'Tradisi ialah sebahagian daripada identiti dan khazanah negara bangsa yang perlu dihargai.'},
+    {q:'Mei Ling tidak mahu menyertai sambutan kebudayaan rakan-rakannya kerana menganggap tradisi mereka tidak penting. Apakah kesan yang mungkin berlaku?',a:['Sikap bekerjasama dipinggirkan','Identiti negara bangsa semakin kukuh','Perpaduan semakin erat','Sikap hormat semakin meningkat'],correct:0,level:'Aras Sederhana',section:'objektif',explain:'Keengganan menyertai aktiviti kebudayaan bersama boleh meminggirkan sikap bekerjasama.'},
+    {q:'Mengapakah sikap tidak menghormati tradisi masyarakat lain boleh menjejaskan hubungan antara kaum?',a:['Semua masyarakat akan mengamalkan tradisi yang sama','Individu mungkin berasa tersinggung dan menjauhkan diri','Masyarakat akan lebih berminat mempelajari budaya lain','Kerjasama antara masyarakat akan bertambah baik'],correct:1,level:'Aras Sederhana',section:'objektif',explain:'Sikap tidak menghormati tradisi boleh menyinggung perasaan dan menyebabkan seseorang menjauhkan diri.'},
+    {q:'Sekolah menganjurkan pameran tradisi pelbagai kaum. Namun, sekumpulan murid enggan membantu kerana menganggap tradisi kaum lain tidak penting. Apakah dua kesan yang paling mungkin berlaku?',a:['Sikap bekerjasama dipinggirkan dan perpaduan tergugat','Identiti negara bangsa semakin kukuh dan sikap hormat meningkat','Amalan hidup bersatu padu semakin kukuh dan hubungan semakin erat','Tradisi semua kaum semakin dihargai dan kerjasama meningkat'],correct:0,level:'Aras Tinggi (KBAT)',section:'objektif',explain:'Keengganan bekerjasama boleh meminggirkan nilai kerjasama dan menggugat perpaduan.'},
+    {q:'Sebuah kampung mempunyai penduduk daripada pelbagai kaum. Penduduk tidak lagi berminat mempelajari tradisi antara satu sama lain dan semakin jarang menjalankan aktiviti bersama. Apakah kesan jangka panjang yang paling munasabah?',a:['Semua penduduk akan mempunyai tradisi yang sama','Khazanah negara bangsa semakin terpelihara','Hubungan masyarakat semakin renggang dan perpaduan boleh tergugat','Sikap hormat-menghormati semakin meningkat'],correct:2,level:'Aras Tinggi (KBAT)',section:'objektif',explain:'Kurangnya minat terhadap tradisi bersama boleh merenggangkan hubungan dan menjejaskan perpaduan.'},
+    {q:'Farah mendapati rakannya sering diejek kerana mengamalkan tradisi keluarganya. Apakah tindakan terbaik untuk mengelakkan kesan pengabaian tradisi?',a:['Membiarkan keadaan kerana tradisi setiap keluarga berbeza','Mengajak rakan lain menghentikan ejekan dan menghormati tradisi tersebut','Meminta rakannya berhenti mengamalkan tradisi itu','Mengasingkan diri daripada kumpulan tersebut'],correct:1,level:'Aras Tinggi (KBAT)',section:'objektif',explain:'Menghentikan ejekan dan menggalakkan sikap saling menghormati membantu memelihara keharmonian.'},
+    {q:'Ravi mengejek pakaian tradisional rakannya sehingga rakannya berasa malu dan tidak mahu menyertai aktiviti kelas. Keadaan ini boleh menyebabkan rakannya berasa sakit hati dan mula mengasingkan diri.',a:['BETUL','SALAH'],correct:0,section:'betul-salah',explain:'Ejekan terhadap tradisi boleh menyakiti perasaan dan menyebabkan seseorang mengasingkan diri.'},
+    {q:'Penduduk sebuah taman perumahan enggan bekerjasama dalam aktiviti gotong-royong kerana aktiviti itu turut disertai jiran berlainan kaum. Tindakan ini tidak memberi sebarang kesan kepada masyarakat.',a:['BETUL','SALAH'],correct:1,section:'betul-salah',explain:'Keengganan bekerjasama boleh menjejaskan hubungan masyarakat dan perpaduan.'},
+    {q:'Generasi muda tidak mempelajari tarian dan permainan tradisional sehingga warisan tersebut semakin dilupakan. Keadaan ini boleh menyebabkan identiti dan khazanah negara bangsa hilang.',a:['BETUL','SALAH'],correct:0,section:'betul-salah',explain:'Warisan yang tidak dipelajari dan dilupakan boleh menyebabkan identiti serta khazanah negara bangsa hilang.'},
+    {q:'Seorang remaja berasa sakit hati kerana adat keluarganya dihina lalu mengasingkan diri daripada rakan-rakannya. Perbuatan menghina tradisi tidak menjejaskan hubungan sosial.',a:['BETUL','SALAH'],correct:1,section:'betul-salah',explain:'Menghina tradisi boleh menjejaskan hubungan sosial dan menyebabkan seseorang berasa tersisih.'},
+    {q:'Masyarakat daripada pelbagai kaum menghormati tradisi antara satu sama lain dan menyertai aktiviti bersama. Amalan ini membantu mengukuhkan perpaduan.',a:['BETUL','SALAH'],correct:0,section:'betul-salah',explain:'Saling menghormati tradisi dan menyertai aktiviti bersama membantu mengukuhkan perpaduan.'}
+  ];
+  // Setiap sesi menggunakan susunan soalan rawak tanpa pengulangan.
+  function shuffledQuestions(pool){
+    const deck=[...pool];
+    for(let i=deck.length-1;i>0;i--){
+      const j=Math.floor(Math.random()*(i+1));
+      [deck[i],deck[j]]=[deck[j],deck[i]];
+    }
+    return deck;
+  }
+  let sessionQuestions=shuffledQuestions(questions);
+  const chestData = [
+    {x:410,y:390,name:'Lembah Permulaan',clue:'Mulakan dari kawasan lembah. Peti ini terletak tidak jauh dari tempat anda bermula.'},
+    {x:1030,y:245,name:'Hutan Bercahaya',clue:'Bergerak ke utara menuju kawasan hutan. Cari peti berhampiran pepohon yang bercahaya.'},
+    {x:2220,y:480,name:'Bukit Angin',clue:'Teruskan ke timur laut pulau, menuju bukit yang luas dan berangin.'},
+    {x:2350,y:1510,name:'Teluk Zamrud',clue:'Dari bukit, bergerak ke selatan menuju kawasan teluk dan pesisir air.'},
+    {x:780,y:1660,name:'Runtuhan Purba',clue:'Cari bahagian selatan pulau, kemudian bergerak ke barat menuju runtuhan purba.'},
+    {x:1500,y:300,name:'Menara Langit',clue:'Dari kawasan tengah pulau, bergerak ke utara menuju kawasan menara.'}
+  ];
+  const player = {x:170,y:200,dx:0,dy:0,face:'down',walk:0,speed:218};
+  let started=false, isQuiz=false, answered=false, current=0, activeChest=0, openedChests=new Set(), chestQuestionCounts=Array(6).fill(0), score=0, correctCount=0, lastTime=0, animTime=0, movement={up:false,down:false,left:false,right:false}, lastInteract=0;
+  let lightningUntil=0, audioCtx=null, musicOn=false, musicTimer=null, musicStep=0;
+  let mouseTarget=null;
+  let viewW=900, viewH=600, dpr=1, camX=0,camY=0;
+  const world=document.createElement('canvas'); world.width=W; world.height=H; const wctx=world.getContext('2d');
+  let trees=[], rocks=[], flowers=[], grassTufts=[];
+  // Seeded random generator keeps the island composition stable between restarts.
+  let seed=721905;
+  function rand(){seed=(seed*1664525+1013904223)>>>0;return seed/4294967296;}
+  function dist(a,b){return Math.hypot(a.x-b.x,a.y-b.y);}
+  function nearAnyChest(x,y,pad=115){return chestData.some(c=>Math.hypot(c.x-x,c.y-y)<pad);}
+  function nearHouse(x,y,pad=130){return [[680,900],[1770,360],[1850,1450],[450,1450]].some(p=>Math.hypot(p[0]-x,p[1]-y)<pad);}
+  function buildWorld(){
+    seed=721905;
+    const g=wctx.createLinearGradient(0,0,W,H);g.addColorStop(0,'#8ac478');g.addColorStop(.45,'#70b86f');g.addColorStop(1,'#5da36e');wctx.fillStyle=g;wctx.fillRect(0,0,W,H);
+    // Gentle grassy patches and tiny ground flecks.
+    for(let i=0;i<2600;i++){const x=rand()*W,y=rand()*H,r=2+rand()*8;wctx.globalAlpha=.035+rand()*.07;wctx.fillStyle=rand()>.5?'#e9ed9c':'#255e52';wctx.beginPath();wctx.ellipse(x,y,r*1.5,r*.55,rand()*Math.PI,0,Math.PI*2);wctx.fill();}wctx.globalAlpha=1;
+    // Soft dirt paths linking distant regions without forcing one route.
+    const paths=[[[170,210],[300,280],[410,390],[640,430],[800,360],[1030,245]],[[1030,245],[1300,300],[1570,400],[1850,470],[2220,480]],[[410,390],[480,650],[570,780],[680,900],[920,1060],[1170,1270],[1300,1550],[780,1660]],[[2220,480],[2240,700],[2300,950],[2400,1210],[2350,1510]],[[2350,1510],[2040,1640],[1780,1730],[1430,1770],[1100,1700],[780,1660]],[[680,900],[900,820],[1140,780],[1410,830],[1680,900],[1900,1050],[2140,1280],[2350,1510]]];
+    wctx.lineCap='round';wctx.lineJoin='round';
+    paths.forEach(points=>{wctx.beginPath();points.forEach((p,i)=>i?wctx.lineTo(p[0],p[1]):wctx.moveTo(p[0],p[1]));wctx.strokeStyle='#619b65';wctx.lineWidth=60;wctx.stroke();wctx.strokeStyle='#d5c28a';wctx.lineWidth=43;wctx.stroke();wctx.strokeStyle='#e6d6a7';wctx.lineWidth=2;wctx.setLineDash([5,17]);wctx.stroke();wctx.setLineDash([]);});
+    // Central lake with a small sandy rim.
+    wctx.fillStyle='#d8c88e';wctx.beginPath();wctx.ellipse(1540,1050,390,285,-.15,0,Math.PI*2);wctx.fill();
+    wctx.fillStyle='#3b9b9d';wctx.beginPath();wctx.ellipse(1540,1043,367,262,-.15,0,Math.PI*2);wctx.fill();
+    const water=wctx.createLinearGradient(1210,800,1840,1260);water.addColorStop(0,'#67c8bc');water.addColorStop(.48,'#2e939d');water.addColorStop(1,'#267b91');wctx.fillStyle=water;wctx.beginPath();wctx.ellipse(1540,1043,353,247,-.15,0,Math.PI*2);wctx.fill();
+    for(let i=0;i<42;i++){const x=1240+rand()*600,y=830+rand()*420;wctx.globalAlpha=.25;wctx.strokeStyle='#b7eee1';wctx.lineWidth=2;wctx.beginPath();wctx.ellipse(x,y,8+rand()*19,2+rand()*4,rand(),0,Math.PI*2);wctx.stroke();}wctx.globalAlpha=1;
+    // Pebble bridge on the eastern shore.
+    wctx.save();wctx.translate(1906,1050);wctx.rotate(.9);wctx.fillStyle='#a6a58c';wctx.fillRect(-56,-135,112,270);wctx.fillStyle='#d7d2b3';for(let i=0;i<9;i++){wctx.fillRect(-50,-125+i*30,100,4);}wctx.restore();
+    // Low hills / shaded forest patches.
+    [[280,760,290,220],[1010,690,210,180],[2510,890,330,240],[1940,1810,340,170],[430,1280,260,210],[2650,370,200,260]].forEach((a,i)=>{wctx.globalAlpha=.11;wctx.fillStyle=i%2?'#326b56':'#2d674f';wctx.beginPath();wctx.ellipse(a[0],a[1],a[2],a[3],-.4,0,Math.PI*2);wctx.fill();});wctx.globalAlpha=1;
+    // Houses and landmarks.
+    [[680,900,'Kampung Daun'],[1770,360,'Pondok Penjelajah'],[1850,1450,'Jeti Zamrud'],[450,1450,'Runtuhan']].forEach((h,i)=>drawHouse(wctx,h[0],h[1],i));
+    // Scattered stones and flowers, avoiding obvious objective areas.
+    trees=[];rocks=[];flowers=[];grassTufts=[];
+    for(let i=0;i<295;i++){const x=45+rand()*(W-90),y=45+rand()*(H-90);if(nearAnyChest(x,y,125)||nearHouse(x,y,105)||Math.hypot((x-1540)/390,(y-1043)/285)<1.03||Math.hypot(x-player.x,y-player.y)<100)continue;trees.push({x,y,r:14+rand()*12,tone:Math.floor(rand()*3),small:rand()>.8});}
+    for(let i=0;i<160;i++){const x=30+rand()*(W-60),y=30+rand()*(H-60);if(nearAnyChest(x,y,90)||nearHouse(x,y,80)||Math.hypot((x-1540)/390,(y-1043)/285)<1.04)continue;rocks.push({x,y,r:3+rand()*7});}
+    for(let i=0;i<850;i++){const x=20+rand()*(W-40),y=20+rand()*(H-40);if(nearAnyChest(x,y,45))continue;flowers.push({x,y,c:['#fff1a5','#ffb7a5','#e8ccff','#f4faf0'][Math.floor(rand()*4)],r:1+rand()*1.8});}
+    // Trail shrubs / grasses to reinforce a large outdoor world.
+    for(let i=0;i<1100;i++){const x=rand()*W,y=rand()*H;if(nearAnyChest(x,y,65))continue;grassTufts.push({x,y,a:rand()*1.2-.6,len:2+rand()*4});}
+    // Draw terrain decorations to the static world canvas.
+    flowers.forEach(f=>{wctx.globalAlpha=.85;wctx.fillStyle=f.c;wctx.beginPath();wctx.arc(f.x,f.y,f.r,0,Math.PI*2);wctx.fill();});wctx.globalAlpha=1;
+    rocks.forEach(r=>{wctx.fillStyle='#718e76';wctx.beginPath();wctx.ellipse(r.x,r.y,r.r*1.45,r.r*.9,-.35,0,Math.PI*2);wctx.fill();wctx.fillStyle='#b3bda0';wctx.beginPath();wctx.ellipse(r.x-2,r.y-2,r.r*.7,r.r*.42,-.35,0,Math.PI*2);wctx.fill();});
+    trees.forEach(t=>drawTree(wctx,t));
+    // Heritage-themed decorative sprites removed at user request.
+    // Border markers make the edges of the explorable island feel intentional.
+    wctx.strokeStyle='#b8d88b';wctx.lineWidth=12;wctx.strokeRect(7,7,W-14,H-14);wctx.strokeStyle='#477f61';wctx.lineWidth=3;wctx.strokeRect(17,17,W-34,H-34);
+  }
+  function drawHouse(c,x,y,index){
+    c.save();c.translate(x,y);c.fillStyle='#37684b';c.globalAlpha=.25;c.beginPath();c.ellipse(0,16,75,36,0,0,Math.PI*2);c.fill();c.globalAlpha=1;
+    c.fillStyle='#e8d8af';c.fillRect(-42,-27,84,57);c.fillStyle=['#bd6650','#a65e47','#8e684f','#ad7047'][index];c.beginPath();c.moveTo(-52,-26);c.lineTo(0,-69);c.lineTo(52,-26);c.closePath();c.fill();
+    c.fillStyle='#f5e8c4';c.fillRect(-30,-12,18,19);c.fillRect(12,-12,18,19);c.fillStyle='#684d36';c.fillRect(-8,-2,17,32);c.strokeStyle='#fff2c7';c.lineWidth=2;c.strokeRect(-30,-12,18,19);c.strokeRect(12,-12,18,19);
+    c.fillStyle='#386b55';c.font='bold 11px system-ui';c.textAlign='center';c.fillText(['Kampung Daun','Pondok Penjelajah','Jeti Zamrud','Runtuhan'][index],0,49);c.restore();
+  }
+  function drawTree(c,t){
+    c.save();c.translate(t.x,t.y);const s=t.small?.72:1;c.scale(s,s);c.fillStyle='#365b45';c.globalAlpha=.3;c.beginPath();c.ellipse(3,15,23,11,0,0,Math.PI*2);c.fill();c.globalAlpha=1;
+    c.fillStyle='#795e3d';c.fillRect(-4,0,8,21);
+    const tones=[['#367b53','#4d985d','#6aac68'],['#31724f','#438b57','#72ad68'],['#427c4d','#5d9c59','#8bb969']][t.tone];
+    c.fillStyle=tones[0];c.beginPath();c.arc(-8,-3,16,0,Math.PI*2);c.arc(7,-8,18,0,Math.PI*2);c.arc(0,-19,16,0,Math.PI*2);c.fill();c.fillStyle=tones[1];c.beginPath();c.arc(-8,-8,12,0,Math.PI*2);c.arc(7,-13,13,0,Math.PI*2);c.fill();c.fillStyle=tones[2];c.beginPath();c.arc(-2,-20,7,0,Math.PI*2);c.fill();c.restore();
+  }
+  buildWorld();
+
+  function resize(){
+    const rect=canvas.getBoundingClientRect();dpr=Math.min(window.devicePixelRatio||1,2);viewW=Math.max(320,rect.width);viewH=Math.max(300,rect.height);canvas.width=Math.round(viewW*dpr);canvas.height=Math.round(viewH*dpr);ctx.setTransform(dpr,0,0,dpr,0,0);
+  }
+  window.addEventListener('resize',resize);resize();
+  // Click-to-move: convert the pointer's screen position to world coordinates using the smoothed camera.
+  canvas.addEventListener('pointerdown',e=>{
+    if(e.pointerType==='touch'||!started||isQuiz||!ui.result.classList.contains('hidden'))return;
+    if(e.button!==0)return;
+    const r=canvas.getBoundingClientRect();const sx=e.clientX-r.left,sy=e.clientY-r.top;
+    mouseTarget={x:Math.max(24,Math.min(W-24,camX+sx*(viewW/r.width))),y:Math.max(24,Math.min(H-24,camY+sy*(viewH/r.height)))};
+    const marker=$('cursorTarget');marker.style.left=(sx/r.width*100)+'%';marker.style.top=(sy/r.height*100)+'%';marker.style.display='block';
+    movement={up:false,down:false,left:false,right:false};
+  });
+  function chestPos(i){return chestData[i];}
+  function findTargetChest(){for(let i=0;i<chestData.length;i++){if(!openedChests.has(i))return i;}return -1;}
+  function findNearbyChest(){let found=-1,best=78;for(let i=0;i<chestData.length;i++){if(openedChests.has(i))continue;const d=Math.hypot(chestData[i].x-player.x,chestData[i].y-player.y);if(d<best){best=d;found=i;}}return found;}
+  function collision(nx,ny){
+    const r=13;
+    if(nx<26||ny<26||nx>W-26||ny>H-26)return true;
+    // Trees are solid enough to guide the player, while leaving gaps between groves.
+    for(const t of trees){if(Math.abs(t.x-nx)>34||Math.abs(t.y-ny)>34)continue;if(Math.hypot(t.x-nx,t.y-ny)<t.r*.73+r*.35)return true;}
+    for(const r0 of rocks){if(Math.abs(r0.x-nx)>18||Math.abs(r0.y-ny)>18)continue;if(Math.hypot(r0.x-nx,r0.y-ny)<r0.r+5)return true;}
+    // Lake is blocked except for the marked stone bridge.
+    const lake=Math.hypot((nx-1540)/360,(ny-1043)/257)<1;
+    const bridge=Math.abs(nx-1906)<53 && Math.abs(ny-1050)<128;
+    if(lake&&!bridge)return true;
+    return false;
+  }
+  function keyDown(e){
+    const k=e.key.toLowerCase();
+    if(['arrowup','arrowdown','arrowleft','arrowright',' '].includes(k))e.preventDefault();
+    if(k==='w'||k==='arrowup'||k==='s'||k==='arrowdown'||k==='a'||k==='arrowleft'||k==='d'||k==='arrowright'){mouseTarget=null;$('cursorTarget').style.display='none';}
+    if(k==='w'||k==='arrowup')movement.up=true;
+    if(k==='s'||k==='arrowdown')movement.down=true;
+    if(k==='a'||k==='arrowleft')movement.left=true;
+    if(k==='d'||k==='arrowright')movement.right=true;
+    if((k==='e'||k===' ')&&!e.repeat){interact();}
+  }
+  function keyUp(e){const k=e.key.toLowerCase();if(k==='w'||k==='arrowup')movement.up=false;if(k==='s'||k==='arrowdown')movement.down=false;if(k==='a'||k==='arrowleft')movement.left=false;if(k==='d'||k==='arrowright')movement.right=false;}
+  window.addEventListener('keydown',keyDown);window.addEventListener('keyup',keyUp);window.addEventListener('blur',()=>movement={up:false,down:false,left:false,right:false});
+  document.querySelectorAll('[data-dir]').forEach(btn=>{
+    const d=btn.dataset.dir;const down=e=>{e.preventDefault();movement[d]=true;};const up=e=>{e.preventDefault();movement[d]=false;};
+    btn.addEventListener('pointerdown',down);btn.addEventListener('pointerup',up);btn.addEventListener('pointercancel',up);btn.addEventListener('pointerleave',up);
+  });
+  $('touchAction').addEventListener('pointerdown',e=>{e.preventDefault();interact();});
+  // Audio is generated locally with Web Audio: a gentle pentatonic, gamelan-inspired motif.
+  function getAudio(){if(!audioCtx){const AC=window.AudioContext||window.webkitAudioContext;if(!AC)return null;audioCtx=new AC();}if(audioCtx.state==='suspended')audioCtx.resume();return audioCtx;}
+  function tone(freq,duration=.24,type='sine',volume=.035,delay=0){const a=getAudio();if(!a)return;const t=a.currentTime+delay,o=a.createOscillator(),g=a.createGain();o.type=type;o.frequency.setValueAtTime(freq,t);g.gain.setValueAtTime(.0001,t);g.gain.exponentialRampToValueAtTime(volume,t+.018);g.gain.exponentialRampToValueAtTime(.0001,t+duration);o.connect(g);g.connect(a.destination);o.start(t);o.stop(t+duration+.03);}
+  function noiseBurst(duration=.18,volume=.12,filterType='highpass',cutoff=900,delay=0){const a=getAudio();if(!a)return;const length=Math.max(1,Math.floor(a.sampleRate*duration)),buffer=a.createBuffer(1,length,a.sampleRate),data=buffer.getChannelData(0);for(let i=0;i<length;i++)data[i]=(Math.random()*2-1)*(1-i/length);const src=a.createBufferSource(),filter=a.createBiquadFilter(),gain=a.createGain(),t=a.currentTime+delay;src.buffer=buffer;filter.type=filterType;filter.frequency.value=cutoff;gain.gain.setValueAtTime(.0001,t);gain.gain.exponentialRampToValueAtTime(volume,t+.008);gain.gain.exponentialRampToValueAtTime(.0001,t+duration);src.connect(filter);filter.connect(gain);gain.connect(a.destination);src.start(t);src.stop(t+duration+.02);}
+  function applause(){/* several layered handclaps */for(let i=0;i<16;i++){const d=i*.055+Math.random()*.035;noiseBurst(.075,.15,'bandpass',1200+Math.random()*1800,d);tone(900+Math.random()*650,.045,'triangle',.035,d);}tone(784,.25,'sine',.025,.1);tone(1047,.3,'sine',.022,.2);}
+  function thunder(){/* sharp lightning crack followed by low rolling thunder */noiseBurst(.13,.24,'highpass',1500,0);noiseBurst(.48,.19,'lowpass',430,.09);tone(210,.34,'sawtooth',.09,.02);tone(105,.58,'triangle',.11,.12);tone(72,.7,'sine',.09,.22);}
+  function correctJingle(){tone(587,.24,'triangle',.065,0);tone(784,.3,'triangle',.07,.09);tone(988,.38,'sine',.06,.19);tone(1175,.42,'triangle',.05,.28);noiseBurst(.055,.045,'bandpass',2100,.12);noiseBurst(.055,.045,'bandpass',2600,.22);}
+  function sfx(kind){if(kind==='correct'){correctJingle();}else if(kind==='wrong'){thunder();}else if(kind==='chest'){tone(392,.18,'triangle',.055);tone(523,.22,'triangle',.055,.12);tone(784,.38,'sine',.05,.25);}else if(kind==='interact'){tone(440,.1,'sine',.025);}else if(kind==='finish'){[523,659,784,1047].forEach((n,i)=>tone(n,.38,'triangle',.05,i*.12));applause();}}
+  const melody=[392,523,587,784,659,523,440,587,784,880,784,587,523,440,392,523];
+  function musicTick(){if(!musicOn||!audioCtx)return;const i=musicStep++%melody.length;const base=melody[i];tone(base,.48,'triangle',.032);if(i%4===0)tone(base/2,.62,'sine',.021,.02);if(i%2===1)tone(base*1.5,.2,'sine',.014,.08);musicTimer=setTimeout(musicTick,390);}
+  function setMusic(on){musicOn=on;const b=$('musicToggle');b.textContent=on?'♫ Muzik: Hidup':'♫ Muzik: Mati';b.setAttribute('aria-pressed',String(on));if(on){getAudio();if(musicTimer)clearTimeout(musicTimer);musicStep=0;musicTick();}else if(musicTimer){clearTimeout(musicTimer);musicTimer=null;}}
+  function confettiBurst(){const layer=$('confettiLayer');const colors=['#ffe07b','#65e0b5','#ff8f70','#79d7ff','#d9a7ff','#fff3c4'];for(let i=0;i<190;i++){const bit=document.createElement('i');bit.className='confetti-piece';bit.style.left=(Math.random()*100)+'%';bit.style.background=colors[i%colors.length];bit.style.width=(6+Math.random()*8)+'px';bit.style.height=(9+Math.random()*10)+'px';bit.style.setProperty('--drift',((Math.random()-.5)*340)+'px');bit.style.setProperty('--fall',(180+Math.random()*390)+'px');bit.style.setProperty('--spin',((Math.random()-.5)*1500)+'deg');bit.style.animationDelay=(Math.random()*.28)+'s';layer.appendChild(bit);setTimeout(()=>bit.remove(),2300);}}
+  $('musicToggle').addEventListener('click',()=>setMusic(!musicOn));
+  const fullscreenBtn=$('fullscreenBtn');
+  function syncFullscreenButton(){
+    const active=document.body.classList.contains('game-fullscreen') || !!document.fullscreenElement;
+    fullscreenBtn.textContent=active?'⤢ Keluar skrin penuh':'⛶ Skrin penuh';
+    fullscreenBtn.setAttribute('aria-pressed',String(active));
+    fullscreenBtn.title=active?'Keluar daripada paparan skrin penuh':'Paparkan permainan skrin penuh';
+  }
+  async function toggleGameFullscreen(){
+    const active=document.body.classList.contains('game-fullscreen') || !!document.fullscreenElement;
+    if(active){
+      document.body.classList.remove('game-fullscreen');
+      if(document.fullscreenElement && document.exitFullscreen){try{await document.exitFullscreen();}catch(e){}}
+    }else{
+      document.body.classList.add('game-fullscreen');
+      const root=document.documentElement;
+      if(root.requestFullscreen){try{await root.requestFullscreen();}catch(e){/* CSS fullscreen mode remains available if browser blocks the API. */}}
+    }
+    syncFullscreenButton();
+    setTimeout(()=>{resize();},80);
+  }
+  fullscreenBtn.addEventListener('click',toggleGameFullscreen);
+  document.addEventListener('fullscreenchange',()=>{if(!document.fullscreenElement)document.body.classList.remove('game-fullscreen');syncFullscreenButton();setTimeout(()=>resize(),80);});
+  $('startBtn').addEventListener('click',()=>{setMusic(true);started=true;ui.intro.classList.add('hidden');ui.foot.textContent='Misi sedang berlangsung';canvas.focus();});
+  $('continueBtn').addEventListener('click',()=>{
+    if(chestQuestionCounts[activeChest]===1){openQuiz(activeChest);return;}
+    if(openedChests.size===6){showResult();return;}
+    isQuiz=false;answered=false;ui.quiz.classList.add('hidden');ui.foot.textContent='Teruskan meneroka dan cari peti yang belum dibuka';canvas.focus();updateUI();
+  });
+  $('restartBtn').addEventListener('click',restart);
+  function updateUI(){
+    const count=openedChests.size;const targetIndex=findTargetChest();const next=targetIndex>=0?chestPos(targetIndex):null;
+    ui.score.textContent=`${score} / 100`;ui.chest.textContent=`${count} / 6`;
+    const d=next?Math.round(Math.hypot(next.x-player.x,next.y-player.y)):0;
+    ui.distance.textContent=(!started||!ui.result.classList.contains('hidden'))?'—':`${d} m`;
+    ui.direction.textContent=next?`Peti ${targetIndex+1} · ${directionTo(next)} · ${d} m`:'Semua peti ditemui!';
+    if(ui.clue)ui.clue.textContent=next?next.clue:'Tahniah! Semua peti telah ditemui.';
+    ui.location.textContent=locationName(player.x,player.y);
+    const pct=Math.min(100,count/6*100);ui.progress.style.width=pct+'%';ui.percent.textContent=pct+'%';
+    [...ui.list.children].forEach((el,i)=>{el.className='chest-pill'+(openedChests.has(i)?' done':i===targetIndex?' current':'');el.textContent=openedChests.has(i)?'✓':i+1;});
+    if(count<6){ui.questTitle.textContent=`Cari peti harta karun (${count+1}/6)`;ui.questDesc.textContent=count===0?'Ikut anak panah dan petunjuk lokasi untuk sampai ke peti pertama.':'Ikut anak panah, jarak dan petunjuk lokasi untuk mencari peti seterusnya.';}
+  }
+  function directionTo(p){const dx=p.x-player.x,dy=p.y-player.y;const ang=Math.atan2(dy,dx);if(Math.abs(dx)<150&&Math.abs(dy)<150)return 'sangat dekat';if(ang>-Math.PI/4&&ang<=Math.PI/4)return 'ke timur ➜';if(ang>Math.PI/4&&ang<=3*Math.PI/4)return 'ke selatan ↓';if(ang<=-Math.PI/4&&ang>-3*Math.PI/4)return 'ke utara ↑';return 'ke barat ←';}
+  function locationName(x,y){if(Math.hypot((x-1540)/400,(y-1040)/300)<1.1)return 'Tasik Zamrud';if(x<850&&y<600)return 'Lembah Permulaan';if(x>1900&&y<750)return 'Bukit Angin';if(x>2050&&y>1100)return 'Teluk Zamrud';if(x<1100&&y>1400)return 'Runtuhan Purba';if(x>1300&&y<600)return 'Hutan Bercahaya';return 'Pulau Pengembaraan';}
+  function interact(){
+    if(!started||isQuiz||!ui.result.classList.contains('hidden'))return;
+    const now=performance.now();if(now-lastInteract<300)return;lastInteract=now;
+    const nearby=findNearbyChest();if(nearby>=0){sfx('interact');openQuiz(nearby);}
+  }
+  function openQuiz(chestIndex){mouseTarget=null;$('cursorTarget').style.display='none';activeChest=chestIndex;isQuiz=true;answered=false;const q=sessionQuestions[activeChest*2+chestQuestionCounts[activeChest]];const questionNo=activeChest*2+chestQuestionCounts[activeChest];ui.quizNo.textContent=`Peti ${activeChest+1} daripada 6 · Soalan ${questionNo+1}/12`;$('questionSection').textContent=q.section==='betul-salah'?'BAHAGIAN 2: MISI BETUL ATAU SALAH':`BAHAGIAN 1: SOALAN OBJEKTIF${q.level?' · '+q.level.toUpperCase():''}`;ui.question.textContent=q.q;fitQuestionBubble();ui.answers.classList.toggle('true-false',q.section==='betul-salah');ui.answers.innerHTML='';ui.feedback.className='feedback hidden';ui.next.classList.add('hidden');
+    q.a.forEach((text,i)=>{const b=document.createElement('button');b.className='answer';b.innerHTML=q.section==='betul-salah'?`<span>${text}</span>`:`<span class="letter">${String.fromCharCode(65+i)}</span><span>${text}</span>`;b.addEventListener('click',()=>answer(i,b));ui.answers.appendChild(b);});ui.quiz.classList.remove('hidden');
+  }
+  function answer(index,btn){if(answered)return;answered=true;const q=sessionQuestions[activeChest*2+chestQuestionCounts[activeChest]];const ok=index===q.correct;if(ok){correctCount++;btn.classList.add('correct');confettiBurst();sfx('correct');}else{btn.classList.add('wrong');ui.answers.children[q.correct].classList.add('correct');lightningUntil=performance.now()+950;const bolt=$('lightningFlash');bolt.classList.remove('active');void bolt.offsetWidth;bolt.classList.add('active');sfx('wrong');}
+    chestQuestionCounts[activeChest]++;
+    const chestComplete=chestQuestionCounts[activeChest]>=2;
+    if(chestComplete){openedChests.add(activeChest);sfx('chest');}
+    score=Math.round(correctCount/12*100);
+    [...ui.answers.children].forEach(b=>b.disabled=true);
+    ui.feedback.classList.remove('hidden','bad');if(!ok)ui.feedback.classList.add('bad');ui.feedback.innerHTML=`<strong>${ok?'✅ Tepat sekali!':'💡 Belum tepat.'}</strong> ${q.explain}${ok?' Jawapan betul!':' Jawapan yang betul telah ditandakan.'} ${chestComplete?'Kedua-dua soalan peti ini selesai.':'Satu lagi soalan untuk peti ini.'}`;
+    ui.next.textContent=!chestComplete?'Soalan kedua untuk peti ini →':openedChests.size===6?'Lihat keputusan akhir 🏆':'Kembali meneroka pulau →';ui.next.classList.remove('hidden');ui.foot.textContent=ok?'Jawapan betul':'Jawapan disemak · teruskan misi';
+    // A chest is marked complete after both questions have been answered.
+    updateUI();
+  }
+  function showResult(){
+    sfx('finish');confettiBurst();
+    ui.quiz.classList.add('hidden');isQuiz=false;started=false;ui.result.classList.remove('hidden');ui.score.textContent=`${score} / 100`;ui.chest.textContent='6 / 6';ui.distance.textContent='—';ui.direction.textContent='Misi selesai!';ui.location.textContent='Pengembaraan Tamat';ui.progress.style.width='100%';ui.percent.textContent='100%';[...ui.list.children].forEach(el=>{el.className='chest-pill done';el.textContent='✓';});
+    $('finalScore').textContent=`${score} / 100`;$('correctCount').textContent=`${correctCount} / 12`;
+    let grade,msg,icon;if(score===100){grade='Luar biasa! Cemerlang!';msg='Semua jawapan tepat! Anda pengembara yang bijak dan teliti.';icon='🏆';}else if(score>=80){grade='Cemerlang!';msg='Hebat! Anda menguasai hampir semua cabaran. Teruskan meneroka dan belajar.';icon='🥇';}else if(score>=60){grade='Bagus, teruskan usaha!';msg='Anda berjaya melengkapkan misi. Ulang permainan untuk mengukuhkan pengetahuan.';icon='🌟';}else if(score>=40){grade='Usaha yang baik!';msg='Anda sudah meneroka semua peti. Cuba lagi untuk meningkatkan markah dan ingat fakta baharu.';icon='🧭';}else{grade='Terus mencuba!';msg='Misi berjaya diselesaikan! Semak semula penerangan jawapan dan cuba sekali lagi.';icon='📚';}
+    $('gradeText').textContent=grade;$('resultMessage').textContent=msg;$('resultIcon').textContent=icon;ui.foot.textContent='Misi selesai · keputusan telah direkodkan untuk sesi ini';
+  }
+  function restart(){
+    sessionQuestions=shuffledQuestions(questions);
+    setMusic(true);mouseTarget=null;$('cursorTarget').style.display='none';player.x=170;player.y=200;player.dx=player.dy=0;player.face='down';player.walk=0;cameraReady=false;cameraTime=0;camX=0;camY=0;current=0;activeChest=0;openedChests=new Set();chestQuestionCounts=Array(6).fill(0);score=0;correctCount=0;started=true;isQuiz=false;answered=false;movement={up:false,down:false,left:false,right:false};ui.result.classList.add('hidden');ui.quiz.classList.add('hidden');ui.intro.classList.add('hidden');ui.foot.textContent='Misi sedang berlangsung';updateUI();canvas.focus();
+  }
+  function drawChest(c,i,t){
+    const active=i===findTargetChest() && started;const done=openedChests.has(i);
+    c.save();c.translate(chestData[i].x,chestData[i].y);
+    if(active){c.globalAlpha=.25+.12*Math.sin(t*4);c.fillStyle='#ffe37c';c.beginPath();c.arc(0,-4,42+Math.sin(t*4)*3,0,Math.PI*2);c.fill();c.globalAlpha=1;}
+    c.fillStyle='#355a48';c.globalAlpha=.25;c.beginPath();c.ellipse(0,17,27,10,0,0,Math.PI*2);c.fill();c.globalAlpha=1;
+    if(done){c.fillStyle='#85663b';c.fillRect(-19,-5,38,24);c.fillStyle='#b4a078';c.fillRect(-19,-7,38,7);c.fillStyle='#7b9574';c.beginPath();c.moveTo(-19,2);c.lineTo(0,-10);c.lineTo(19,2);c.fill();c.fillStyle='#72e4ad';c.font='bold 18px system-ui';c.textAlign='center';c.fillText('✓',0,-18);}
+    else{c.fillStyle='#8b4d25';c.beginPath();c.roundRect(-22,-10,44,29,5);c.fill();c.fillStyle='#cf8937';c.beginPath();c.roundRect(-22,-14,44,15,5);c.fill();c.fillRect(-22,-5,44,5);c.fillStyle='#ffd46e';c.fillRect(-4,-7,8,17);c.fillStyle='#ffedb0';c.fillRect(-2,-5,4,7);c.strokeStyle='#6e3b21';c.lineWidth=2;c.beginPath();c.moveTo(-22,2);c.lineTo(22,2);c.stroke();
+      if(active){c.fillStyle='#fff0a8';c.font='bold 15px system-ui';c.textAlign='center';c.fillText('✦',0,-25);}
+    }
+    c.fillStyle='#214e41';c.font='bold 10px system-ui';c.textAlign='center';c.fillText(done?'SELESAI':`PETI ${i+1}`,0,35);
+    c.restore();
+  }
+  function drawPlayer(c,t){
+    c.save();c.translate(player.x,player.y);const moving=movement.up||movement.down||movement.left||movement.right;const bob=moving?Math.sin(t*13)*1.8:Math.sin(t*2)*.6;
+    c.fillStyle='#234d3e';c.globalAlpha=.3;c.beginPath();c.ellipse(0,10,13,6,0,0,Math.PI*2);c.fill();c.globalAlpha=1;
+    if(performance.now()<lightningUntil){c.save();c.strokeStyle='#b7edff';c.lineWidth=3;c.shadowColor='#55cfff';c.shadowBlur=18;c.beginPath();c.moveTo(-8,-48);c.lineTo(2,-31);c.lineTo(-5,-31);c.lineTo(8,-10);c.lineTo(2,-26);c.lineTo(9,-26);c.stroke();c.strokeStyle='#ffffff';c.lineWidth=1.2;c.beginPath();c.moveTo(10,-42);c.lineTo(5,-31);c.lineTo(12,-23);c.stroke();c.restore();}
+    // Backpack
+    c.fillStyle='#9a5732';c.beginPath();c.roundRect(-10,-5,20,19,5);c.fill();c.fillStyle='#e1ad4e';c.fillRect(-9,1,18,3);
+    // Body and animated boots
+    const leg=moving?Math.sin(t*14)*3:0;c.strokeStyle='#324858';c.lineWidth=5;c.lineCap='round';c.beginPath();c.moveTo(-4,6+bob);c.lineTo(-5+leg,14);c.moveTo(4,6+bob);c.lineTo(5-leg,14);c.stroke();
+    c.fillStyle='#38a8a0';c.beginPath();c.roundRect(-9,-7+bob,18,17,6);c.fill();c.fillStyle='#edc66e';c.fillRect(-8,-3+bob,16,3);
+    c.fillStyle='#f3c996';c.beginPath();c.arc(0,-13+bob,9,0,Math.PI*2);c.fill();
+    c.fillStyle='#55412f';c.beginPath();c.arc(0,-16+bob,9,Math.PI,Math.PI*2);c.fill();c.fillRect(-9,-17+bob,18,4);
+    c.fillStyle='#243a3d';let eyeX=0,eyeY=-13;if(player.face==='left')eyeX=-3;if(player.face==='right')eyeX=3;if(player.face==='up')eyeY=-16;if(player.face==='down')eyeY=-11;
+    c.beginPath();c.arc(eyeX-2,eyeY+bob,1.3,0,Math.PI*2);c.arc(eyeX+3,eyeY+bob,1.3,0,Math.PI*2);c.fill();
+    c.restore();
+  }
+  function renderMinimap(t){
+    const w=minimapCanvas.width,h=minimapCanvas.height,m=minimapCtx;
+    m.clearRect(0,0,w,h);
+    m.fillStyle='#2c6952';m.fillRect(0,0,w,h);
+    m.fillStyle='#397b5c';m.beginPath();m.ellipse(w*.49,h*.51,w*.43,h*.43,-.18,0,Math.PI*2);m.fill();
+    m.fillStyle='#4f8d61';m.beginPath();m.ellipse(w*.48,h*.49,w*.32,h*.32,.3,0,Math.PI*2);m.fill();
+    m.strokeStyle='#9fcf9c';m.lineWidth=1.5;m.beginPath();m.ellipse(w*.49,h*.51,w*.43,h*.43,-.18,0,Math.PI*2);m.stroke();
+    m.strokeStyle='#d5c58c';m.lineWidth=2;m.globalAlpha=.7;m.beginPath();
+    m.moveTo(w*.14,h*.26);m.lineTo(w*.36,h*.35);m.lineTo(w*.75,h*.28);m.lineTo(w*.82,h*.72);m.lineTo(w*.28,h*.83);m.stroke();m.globalAlpha=1;
+    chestData.forEach((ch,i)=>{
+      const x=10+(ch.x/W)*(w-20),y=10+(ch.y/H)*(h-20);
+      m.beginPath();m.arc(x,y,5,0,Math.PI*2);m.fillStyle=openedChests.has(i)?'#56e39b':'#ffd45e';m.fill();
+      m.strokeStyle='#17352e';m.lineWidth=1.5;m.stroke();m.fillStyle='#102c2b';m.font='bold 7px system-ui';m.textAlign='center';m.textBaseline='middle';m.fillText(String(i+1),x,y+.3);
+    });
+    const px=10+(player.x/W)*(w-20),py=10+(player.y/H)*(h-20);
+    m.beginPath();m.arc(px,py,5.5,0,Math.PI*2);m.fillStyle='#60cfff';m.fill();m.strokeStyle='#f0fbff';m.lineWidth=2;m.stroke();
+    m.beginPath();m.arc(px,py,8+Math.sin(t*4)*1.5,0,Math.PI*2);m.strokeStyle='#8fe3ff';m.lineWidth=1;m.stroke();
+    minimapCount.textContent=`${openedChests.size}/6 peti`;
+  }
+  let cameraTime=0, cameraReady=false;
+  function render(t){
+    // Camera follows the player with easing instead of snapping every frame.
+    const targetX=Math.max(0,Math.min(W-viewW,player.x-viewW/2));
+    const targetY=Math.max(0,Math.min(H-viewH,player.y-viewH/2));
+    const cameraDt=cameraTime?Math.min(.05,Math.max(0,t-cameraTime)):0;
+    cameraTime=t;
+    if(!cameraReady){camX=targetX;camY=targetY;cameraReady=true;}
+    else {
+      const ease=1-Math.exp(-cameraDt*8.5);
+      camX+=(targetX-camX)*ease;
+      camY+=(targetY-camY)*ease;
+      camX=Math.max(0,Math.min(W-viewW,camX));
+      camY=Math.max(0,Math.min(H-viewH,camY));
+    }
+    ctx.clearRect(0,0,viewW,viewH);
+    ctx.drawImage(world,camX,camY,viewW,viewH,0,0,viewW,viewH);
+    // Render character and chests in world coordinates, offset by camera position.
+    ctx.save();
+    ctx.translate(-camX,-camY);
+    chestData.forEach((ch,i)=>{if(ch.x>camX-55&&ch.x<camX+viewW+55&&ch.y>camY-65&&ch.y<camY+viewH+65)drawChest(ctx,i,t);});
+    // Always draw the player; the camera is designed to keep them in view.
+    drawPlayer(ctx,t);
+    ctx.restore();
+    const vg=ctx.createRadialGradient(viewW/2,viewH/2,viewH*.15,viewW/2,viewH/2,Math.max(viewW,viewH)*.7);vg.addColorStop(0,'#062c2800');vg.addColorStop(1,'#062c281f');ctx.fillStyle=vg;ctx.fillRect(0,0,viewW,viewH);
+    // Screen-space arrow pointing toward the next treasure when it is off-screen.
+    const targetIndex=findTargetChest();if(started&&targetIndex>=0){const c=chestPos(targetIndex);const sx=c.x-camX,sy=c.y-camY;if(sx<24||sx>viewW-24||sy<24||sy>viewH-24){const cx=viewW/2,cy=viewH/2;const a=Math.atan2(sy-cy,sx-cx);const rx=Math.max(28,Math.min(viewW/2-23,(viewW/2-25)/Math.max(Math.abs(Math.cos(a)),.15)));const ry=Math.max(28,Math.min(viewH/2-30,(viewH/2-32)/Math.max(Math.abs(Math.sin(a)),.15)));const x=Math.max(18,Math.min(viewW-18,cx+Math.cos(a)*rx));const y=Math.max(18,Math.min(viewH-18,cy+Math.sin(a)*ry));ctx.save();ctx.translate(x,y);ctx.rotate(a);ctx.fillStyle='#fff0a6';ctx.strokeStyle='#654c2c';ctx.lineWidth=2;ctx.beginPath();ctx.moveTo(13,0);ctx.lineTo(-8,-8);ctx.lineTo(-4,0);ctx.lineTo(-8,8);ctx.closePath();ctx.fill();ctx.stroke();ctx.restore();}}
+    ctx.fillStyle='#214c3d';ctx.font='bold 11px system-ui';ctx.textAlign='left';ctx.fillText('▲ PULAU PENGEMBARAAN',14,24);
+    renderMinimap(t);
+  }
+  function update(dt,t){
+    if(started&&!isQuiz&&ui.result.classList.contains('hidden')){
+      let vx=(movement.right?1:0)-(movement.left?1:0),vy=(movement.down?1:0)-(movement.up?1:0);
+      const manualLen=Math.hypot(vx,vy);if(mouseTarget&&manualLen===0){const tx=mouseTarget.x-player.x,ty=mouseTarget.y-player.y,td=Math.hypot(tx,ty);if(td<10){mouseTarget=null;$('cursorTarget').style.display='none';}else{vx=tx/td;vy=ty/td;}}
+      const len=Math.hypot(vx,vy);if(len){vx/=len;vy/=len;player.face=Math.abs(vx)>Math.abs(vy)?(vx>0?'right':'left'):(vy>0?'down':'up');player.walk+=dt*10;}
+      const nx=player.x+vx*player.speed*dt,ny=player.y+vy*player.speed*dt;
+      if(!collision(nx,player.y))player.x=nx;else if(mouseTarget){mouseTarget=null;$('cursorTarget').style.display='none';}
+      if(!collision(player.x,ny))player.y=ny;else if(mouseTarget){mouseTarget=null;$('cursorTarget').style.display='none';}
+      const nearby=findNearbyChest();if(nearby>=0){ui.toast.classList.remove('hidden');ui.toastText.textContent=`Peti ${nearby+1} ditemui! Tekan untuk membuka`; }else{ui.toast.classList.add('hidden');}
+      updateUI();
+    }else if(!started){ui.toast.classList.add('hidden');}
+  }
+  function loop(now){const dt=Math.min(.045,(now-lastTime)/1000||0);lastTime=now;animTime=now/1000;update(dt,animTime);render(animTime);requestAnimationFrame(loop);}
+  updateUI();requestAnimationFrame(loop);
+})();
+</script>
+</body>
+</html>
