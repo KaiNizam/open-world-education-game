@@ -360,6 +360,23 @@
     .stat strong { font-size:clamp(14px,2vw,18px); }
     #quizOverlay .dialog { max-width:min(620px,94vw); }
   }
+
+  /* Paparan LCD/projektor: besarkan dialog soalan dan semua komponennya. */
+  @media (min-width: 901px) and (min-height: 561px) {
+    #quizOverlay { padding: clamp(18px, 3vh, 36px); }
+    #quizOverlay .dialog { width: min(88%, 1050px); max-width: 1050px; padding: clamp(24px, 3vw, 44px); border-radius: 26px; }
+    #quizOverlay .quiz-top { gap: 14px; margin-bottom: clamp(12px, 2vh, 24px); }
+    #quizOverlay .quiz-number { font-size: clamp(14px, 1.15vw, 18px); letter-spacing: 1.5px; }
+    #quizOverlay .quiz-points { font-size: clamp(14px, 1.1vw, 17px); padding: 10px 16px; }
+    #quizOverlay .bubble-toggle { font-size: clamp(13px, 1vw, 16px); padding: 10px 15px; }
+    #quizOverlay .eyebrow { font-size: clamp(13px, 1.05vw, 17px); letter-spacing: 2.2px; margin-bottom: 16px; }
+    #quizOverlay .question { font-size: clamp(27px, 2.25vw, 38px); line-height: 1.25; margin-bottom: clamp(18px, 2.2vh, 28px); }
+    #quizOverlay .answers { gap: clamp(10px, 1.25vh, 16px); margin-bottom: clamp(14px, 1.8vh, 22px); }
+    #quizOverlay .answer { font-size: clamp(20px, 1.55vw, 26px); line-height: 1.35; padding: clamp(14px, 1.8vh, 22px) clamp(16px, 1.8vw, 26px); gap: 16px; border-radius: 16px; min-height: 64px; }
+    #quizOverlay .answer .letter { width: 42px; height: 42px; border-radius: 12px; font-size: 18px; }
+    #quizOverlay .feedback { font-size: clamp(16px, 1.2vw, 20px); line-height: 1.5; padding: 16px 20px; margin-bottom: 18px; border-radius: 16px; }
+  }
+
 </style>
 </head>
 <body>
