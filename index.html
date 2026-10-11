@@ -266,6 +266,63 @@
   body.game-fullscreen .fullscreen-btn{padding:6px 8px;font-size:10px}
   @media(max-width:560px){.fullscreen-btn{padding:5px 6px;font-size:9px}.stats{gap:3px}.topbar .stat{min-width:49px}}
   @media(max-height:520px){body.game-fullscreen .topbar{padding:2px 6px!important}body.game-fullscreen .logo{width:27px;height:27px;font-size:16px}body.game-fullscreen .stat{padding:2px 4px}body.game-fullscreen .game-head,body.game-fullscreen .game-foot{padding:3px 6px}}
+
+  /* Responsive polish for phones, tablets and touch devices */
+  img,canvas,svg{max-width:100%}
+  .app,.layout,.game-card,.canvas-wrap,.side-card,.dialog{min-width:0}
+  .brand h1,.brand p,.location,.compass,.game-foot,.side-card,.questline p{overflow-wrap:anywhere}
+  button,.move-btn,.action-btn{ -webkit-tap-highlight-color:transparent; }
+  @media (min-width:561px) and (max-width:900px){
+    body{padding:clamp(6px,1.5vw,14px)}
+    .topbar{padding:clamp(7px,1.5vw,12px);gap:10px}
+    .brand{min-width:0;flex:1 1 260px}
+    .stats{flex:1 1 100%;display:grid;grid-template-columns:repeat(3,minmax(0,1fr))}
+    .stat{min-width:0;padding:8px 10px}
+    .layout{display:flex;flex-direction:column;min-height:0}
+    .game-card{width:100%}
+    #game{height:clamp(300px,52vh,560px);min-height:0}
+    .side{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}
+    .side-card.quest-card{grid-column:1/-1}
+    .touch-controls{display:flex}
+  }
+  @media (max-width:560px){
+    .stats{flex:0 0 auto;max-width:48%;display:grid;grid-template-columns:repeat(3,minmax(0,1fr))}
+    .stat{min-width:0;padding:4px 3px;text-align:center}
+    .stat span{font-size:clamp(6px,1.7vw,8px);letter-spacing:0}
+    .stat strong{font-size:clamp(11px,3vw,14px)}
+    .game-head{min-width:0}
+    .location{gap:5px;min-width:0}
+    .compass{max-width:42%;}
+    .touch-controls{justify-content:space-between;padding:clamp(5px,1.5vh,10px) clamp(7px,2vw,12px)}
+    .dpad{grid-template-columns:repeat(3,clamp(29px,8.5vw,38px));grid-template-rows:repeat(2,clamp(25px,7vh,34px));gap:3px}
+    .action-btn{width:clamp(54px,16vw,68px);height:clamp(48px,13vh,62px)}
+    #quizOverlay{padding:max(4px,env(safe-area-inset-top)) 5px max(4px,env(safe-area-inset-bottom))}
+    #quizOverlay .dialog{width:min(100%,500px);max-width:100%;padding:clamp(8px,2.4vw,13px);border-radius:clamp(10px,3vw,16px)}
+    #quizOverlay .answer{font-size:clamp(16px,4.3vw,20px);overflow-wrap:anywhere;gap:clamp(6px,2vw,10px)}
+    #quizOverlay .question{font-size:clamp(16px,4.6vw,23px)}
+    .quiz-tools{max-width:100%}
+    .bubble-toggle{font-size:clamp(9px,2.5vw,11px);padding:5px 7px}
+  }
+  @media (max-height:500px) and (orientation:landscape){
+    body{height:auto;min-height:100dvh;overflow:auto}
+    .app{height:auto;min-height:100dvh}
+    .topbar{padding:5px 8px;margin-bottom:5px}
+    .brand p{display:none}
+    .logo{width:30px;height:30px;font-size:17px}
+    .stat{padding:4px 6px}
+    #game{height:48vh;min-height:190px}
+    .touch-controls{padding:4px 8px}
+    .dpad{grid-template-rows:repeat(2,25px)}
+    .action-btn{height:48px;width:56px}
+    #quizOverlay .dialog{max-height:calc(100dvh - 8px);padding:6px 9px}
+    #quizOverlay .question{font-size:clamp(14px,2.7vh,19px);margin-bottom:4px}
+    #quizOverlay .answer{padding:4px 7px;line-height:1.15}
+  }
+  @media (pointer:coarse){
+    .answer{touch-action:manipulation}
+    .move-btn,.action-btn{min-height:42px}
+  }
+
 </style>
 </head>
 <body>
